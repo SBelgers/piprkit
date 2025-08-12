@@ -1,29 +1,31 @@
-from typing import Any, Optional
-from typing import override
+from typing import Any, Optional, override
 
 import numpy as np
 from matplotlib.axes import Axes
 from numpy.typing import NDArray
 
-from .pupil_measurement import PupilMeasurement
 from ..utils.light_stimuli import LightStimuliSeries
+from .pupil_measurement import PupilMeasurement
+
+
 class PupilSeries(PupilMeasurement):
     """
     A class representing a series of pupil measurements with multiple light stimuli.
-    
+
     This class extends PupilMeasurement to handle multiple light stimuli events
     and provides functionality to split the series into individual measurements.
     """
-    
+
     # ============================================================================
     # INITIALIZATION
     # ============================================================================
-    
+
     def __init__(
         self,
         time_data: NDArray[np.number],
         size: NDArray[np.number],
         stimuli_list: list[tuple[float, float]],
+        name: Optional[str] = None,
     ) -> None:
         """Initialize PupilSeries with time, size, and light stimuli data.
 
@@ -38,7 +40,7 @@ class PupilSeries(PupilMeasurement):
     # ============================================================================
     # LIGHT STIMULI MANAGEMENT (OVERRIDES)
     # ============================================================================
-    
+
     @override
     def set_light_stimulus(self, *args: Any, **kwargs: Any) -> None:
         """Override single stimulus method - use set_light_stimuli_list instead."""
@@ -48,7 +50,7 @@ class PupilSeries(PupilMeasurement):
     def get_light_stimulus(self, **kwargs: Any):
         """Override single stimulus method - use get_light_stimuli_list instead."""
         raise AttributeError("Use get_light_stimuli_list instead.")
-        
+
     def set_light_stimuli_from_list(
         self, light_stimuli_list: list[tuple[float, float]]
     ) -> None:
@@ -58,9 +60,9 @@ class PupilSeries(PupilMeasurement):
             light_stimuli_list (list[tuple[float, float]]): List of (start, end) tuples for light stimuli.
         """
         self.light_stimuli = LightStimuliSeries()
-        for (start_time, end_time) in light_stimuli_list:
-            self.light_stimuli.add_stimulus(start_time= start_time, end_time = end_time)
-        
+        for start_time, end_time in light_stimuli_list:
+            self.light_stimuli.add_stimulus(start_time=start_time, end_time=end_time)
+
     def get_light_stimuli(self) -> LightStimuliSeries:
         """Get the light stimuli series object.
 
@@ -69,7 +71,7 @@ class PupilSeries(PupilMeasurement):
 
         Returns:
             LightStimuliSeries: The light stimuli series object.
-        """       
+        """
         if not hasattr(self, "light_stimuli"):
             raise ValueError("Light stimuli list is not set.")
         return self.light_stimuli
@@ -77,8 +79,9 @@ class PupilSeries(PupilMeasurement):
     # ============================================================================
     # SERIES PROCESSING METHODS
     # ============================================================================
-    
-    def split(self, prepulse_duration: float, postpulse_duration: float) -> list[PupilMeasurement]:
+    def split(
+        self, prepulse_duration: float, postpulse_duration: float
+    ) -> list[PupilMeasurement]:
         """Split the pupil series into individual measurements around each stimulus.
 
         Args:
@@ -97,7 +100,7 @@ class PupilSeries(PupilMeasurement):
         series: list[PupilMeasurement] = []
         light_stimulus_list = self.light_stimuli.get_times()
         time, size = self.get_time(), self.get_size()
-        
+
         for light_start, light_end in light_stimulus_list:
             start = light_start - prepulse_duration
             end = light_end + postpulse_duration
@@ -106,13 +109,13 @@ class PupilSeries(PupilMeasurement):
             series[-1].trim_time(start, end, drop=True)
             series[-1].set_light_stimulus(light_start, light_end)
             series[-1].set_time_offset(-light_end)
-            
+
         return series
 
     # ============================================================================
     # VISUALIZATION METHODS
     # ============================================================================
-    
+
     def plot_light_stimulus(
         self,
         ax: Optional[Axes] = None,

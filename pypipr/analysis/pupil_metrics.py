@@ -10,7 +10,6 @@ if TYPE_CHECKING:
     from ..analysis.fitting.pupil_fit import PupilFit
     from ..core.pupil_measurement import PupilMeasurement
 
-
 """
 Metrics as described by Adhikari et al. (2015), table 2:
 
@@ -80,7 +79,7 @@ def baseline(pupil_measurement: PupilMeasurement, duration: float = 10) -> float
     return np.nanmean(pupil_measurement.get_size()[mask])  # type: ignore
 
 
-def transient_plr(pupil_measurement: "PupilMeasurement") -> float:
+def transient_plr(pupil_measurement: PupilMeasurement) -> float:
     """
 
         Metrics as described by Adhikari et al. (2015), table 2:
@@ -145,7 +144,7 @@ def constriction_v(PupilFit: PupilFit) -> float:
     raise NotImplementedError()
 
 
-def peak_constriction(pupil_measurement: "PupilMeasurement") -> float:
+def peak_constriction(pupil_measurement: PupilMeasurement) -> float:
     """
         Metrics as described by Adhikari et al. (2015), table 2:
 
@@ -177,7 +176,7 @@ def peak_constriction(pupil_measurement: "PupilMeasurement") -> float:
     return float(minimum_size)
 
 
-def time_to_peak(pupil_measurement: "PupilMeasurement") -> float:
+def time_to_peak(pupil_measurement: PupilMeasurement) -> float:
     """
         Metrics as described by Adhikari et al. (2015), table 2:
 
@@ -250,7 +249,7 @@ def redilation_v(PupilFit: PupilFit) -> float:
     raise NotImplementedError()
 
 
-def pipr_xs(pupil_measurement: "PupilMeasurement", start: float, end: float) -> float:
+def pipr_xs(pupil_measurement: PupilMeasurement, start: float, end: float) -> float:
     """The x second PIPR amplitude between start and end time after light offset.
 
     Args:
@@ -310,7 +309,7 @@ def plateau(PupilFit: PupilFit) -> float:
     raise NotImplementedError()
 
 
-def auc_early(pupil_measurement: "PupilMeasurement") -> float:
+def auc_early(pupil_measurement: PupilMeasurement) -> float:
     """
         Metrics as described by Adhikari et al. (2015), table 2:
 
@@ -331,7 +330,7 @@ def auc_early(pupil_measurement: "PupilMeasurement") -> float:
     raise NotImplementedError()
 
 
-def auc_late(pupil_measurement: "PupilMeasurement") -> float:
+def auc_late(pupil_measurement: PupilMeasurement) -> float:
     """_summary_
         Metrics as described by Adhikari et al. (2015), table 2:
 
@@ -352,7 +351,7 @@ def auc_late(pupil_measurement: "PupilMeasurement") -> float:
     raise NotImplementedError()
 
 
-def pipr_duration(pupil_measurement: "PupilMeasurement") -> float:
+def pipr_duration(pupil_measurement: PupilMeasurement) -> float:
     """_summary_
         Metrics as described by Adhikari et al. (2015), table 2:
 
@@ -374,7 +373,7 @@ def pipr_duration(pupil_measurement: "PupilMeasurement") -> float:
 
 
 def net_pipr(
-    pupil_measurement1: "PupilMeasurement", pupil_measurement2: "PupilMeasurement"
+    pupil_measurement1: PupilMeasurement, pupil_measurement2: PupilMeasurement
 ) -> float:
     """
         Metrics as described by Adhikari et al. (2015), table 2:
@@ -443,7 +442,7 @@ def calculate_baseline(pupil: PupilMeasurement, duration: float = 10) -> float:
     return get_average_size(pupil, start_time, end_time)
 
 
-def apply_baseline_correction(pupil: "PupilMeasurement", baseline: float) -> None:
+def apply_baseline_correction(pupil: PupilMeasurement, baseline: float) -> None:
     """Apply baseline correction to pupil size data.
 
     Args:
