@@ -1,87 +1,36 @@
 # Import main classes and functions for flat API
-from .core import PupilMeasurement, PupilSeries
-from .analysis import (
-    PupilFit,
-    baseline,
-    transient_plr,
-    plr_latency,
-    constriction_v,
-    peak_constriction,
-    time_to_peak,
-    pupil_escape,
-    redilation_v,
-    pipr_xs,
-    pipr_6s,
-    plateau,
-    auc_early,
-    auc_late,
-    pipr_duration,
-    net_pipr,
-    get_average_size,
-    calculate_baseline,
-    apply_baseline_correction,
+from .core.pupil_measurement import PupilMeasurement
+from .core.pupil_series import PupilSeries
+from .analysis.fitting.pupil_fit import PupilFit
+from .analysis import pupil_metrics
+
+from .data.loaders import (
+    load_simulated_pupil,
+    load_real_series,
 )
-from .data import load_simulated_pupil, load_real_series
-from .preprocessing import (
-    rolling_filter,
-    rolling_mean,
-    rolling_median,
-    get_rate_of_change,
-    limit_rate_of_change,
-)
-from .utils import check_time_series, LightStimulus, LightStimuliSeries
+from .preprocessing import filtering
+from .utils.utils import check_time_series
+from .utils.light_stimuli import LightStimulus, LightStimuliSeries
 from ._version import __version__
 
-# Keep submodules available for advanced users
-from . import core
-from . import analysis
-from . import preprocessing
-from . import data
-from . import utils
+
 
 __all__ = [
     # Main classes
     "PupilMeasurement",
-    "PupilSeries", 
+    "PupilSeries",
     "PupilFit",
     # Data loading functions
     "load_simulated_pupil",
     "load_real_series",
     # Analysis/metrics functions
-    "baseline",
-    "transient_plr",
-    "plr_latency",
-    "constriction_v",
-    "peak_constriction",
-    "time_to_peak",
-    "pupil_escape",
-    "redilation_v",
-    "pipr_xs",
-    "pipr_6s",
-    "plateau",
-    "auc_early",
-    "auc_late",
-    "pipr_duration",
-    "net_pipr",
-    "get_average_size",
-    "calculate_baseline",
-    "apply_baseline_correction",
+    "pupil_metrics",
     # Preprocessing functions
-    "rolling_filter",
-    "rolling_mean",
-    "rolling_median",
-    "get_rate_of_change",
-    "limit_rate_of_change",
+    "filtering",
     # Utility functions and classes
     "check_time_series",
     "LightStimulus",
     "LightStimuliSeries",
     # Version
     "__version__",
-    # Submodules for advanced use
-    "core",
-    "analysis", 
-    "preprocessing",
-    "data",
-    "utils",
 ]
