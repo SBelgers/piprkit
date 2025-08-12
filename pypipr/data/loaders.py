@@ -13,7 +13,7 @@ from ..core.pupil_measurement import PupilMeasurement
 from ..core.pupil_series import PupilSeries
 
 
-def load_simulated_trace(blue_or_red: str = "blue") -> PupilMeasurement:
+def load_simulated_pupil(blue_or_red: str = "blue") -> PupilMeasurement:
     """
     Load a simulated pupil light response trace.
     
