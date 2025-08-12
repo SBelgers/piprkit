@@ -1,11 +1,8 @@
-from typing import TYPE_CHECKING
-
 import numpy as np
 
-if TYPE_CHECKING:
-    from ...core.pupil_measurement import PupilMeasurement
-    from ...utils.light_stimuli import LightStimulus
-    from .phase_fits import FitBaseline, FitConstrict, FitRedilation, FitSustain
+from ...core.pupil_measurement import PupilMeasurement
+from ...utils.light_stimuli import LightStimulus
+from .phase_fits import FitBaseline, FitConstrict, FitRedilation, FitSustain
 
 
 class PupilFit:
