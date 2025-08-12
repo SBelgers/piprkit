@@ -1,15 +1,13 @@
 from __future__ import annotations
 
 import warnings
-from typing import Any, Callable, Optional
+from typing import Callable
 
 import numpy as np
-from matplotlib.axes import Axes
 from numpy.typing import NDArray
 
 from ..analysis import pupil_metrics
 from ..preprocessing import filtering
-from ..utils.light_stimuli import LightStimulus
 from .pupil_base import PupilBase
 
 
@@ -124,24 +122,22 @@ class PupilMeasurement(PupilBase):
     def rolling_filter(
         self, func: Callable[[NDArray[np.number]], float], time_window: float
     ) -> None:
-        """ Wrapper for rolling filter method. See `filtering.rolling_filter` for details."""
+        """Wrapper for rolling filter method. See `filtering.rolling_filter` for details."""
         filtering.rolling_filter(self, func, time_window)
 
     def rolling_mean(self, time_window: float) -> None:
-        """ Wrapper for rolling mean method. See `filtering.rolling_mean` for details."""
+        """Wrapper for rolling mean method. See `filtering.rolling_mean` for details."""
         filtering.rolling_mean(self, time_window)
 
     def rolling_median(self, time_window: float) -> None:
-        """ Wrapper for rolling median method. See `filtering.rolling_median` for details."""
+        """Wrapper for rolling median method. See `filtering.rolling_median` for details."""
         filtering.rolling_median(self, time_window)
 
     def get_rate_of_change(self) -> NDArray[np.number]:
         """Wrapper for get rate of change method. See `filtering.get_rate_of_change` for details."""
         return filtering.get_rate_of_change(self)
 
-    def limit_rate_of_change(
-        self, max_rate_of_change: float
-    ) -> None:
+    def limit_rate_of_change(self, max_rate_of_change: float) -> None:
         """Wrapper for limit rate of change method. See `filtering.limit_rate_of_change` for details."""
         filtering.limit_rate_of_change(self, max_rate_of_change)
 
@@ -159,53 +155,6 @@ class PupilMeasurement(PupilBase):
     def apply_baseline_correction(self, baseline: float) -> None:
         """Wrapper for apply baseline correction method. See `pupil_metrics.apply_baseline_correction` for details."""
         pupil_metrics.apply_baseline_correction(self, baseline)
-
-    # ============================================================================
-    # LIGHT STIMULUS MANAGEMENT
-    # ============================================================================
-
-    def set_light_stimulus(self, start: float, end: float) -> None:
-        """Set the light stimulus period.
-
-        Args:
-            start (float): The start time of the light stimulus.
-            end (float): The end time of the light stimulus.
-        """
-        self.light_stimulus = LightStimulus(start, end)
-
-    def get_light_stimulus(self) -> Optional[LightStimulus]:
-        """Get the light stimulus object.
-
-        Returns:
-            Optional[LightStimulus]: The light stimulus object or None if not set.
-        """
-        if not hasattr(self, "light_stimulus"):
-            warnings.warn("Light stimulus not set.")
-            return None
-        return self.light_stimulus
-
-    def plot_light_stimulus(
-        self,
-        ax: Optional[Axes] = None,
-        show: bool = False,
-        **kwargs: Any,
-    ) -> Axes:
-        """Plot the light stimulus period.
-
-        Args:
-            ax (Optional[Axes], optional): The axes to plot on. Defaults to None.
-            show (bool, optional): Whether to show the plot. Defaults to False.
-
-        Raises:
-            ValueError: If the light stimulus is not set.
-
-        Returns:
-            Axes: The axes with the light stimulus plotted.
-        """
-        light_stimulus = self.get_light_stimulus()
-        if light_stimulus is None:
-            raise ValueError("Light stimulus not set.")
-        return light_stimulus.plot(ax, show, **kwargs)
 
     # ============================================================================
     # BLINK MANAGEMENT
