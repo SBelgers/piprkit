@@ -1,7 +1,45 @@
-from . import pupil_metrics
 from .fitting.pupil_fit import PupilFit
+from .pupil_metrics import (
+    baseline,
+    transient_plr,
+    plr_latency,
+    constriction_v,
+    peak_constriction,
+    time_to_peak,
+    pupil_escape,
+    redilation_v,
+    pipr_xs,
+    pipr_6s,
+    plateau,
+    auc_early,
+    auc_late,
+    pipr_duration,
+    net_pipr,
+    get_average_size,
+    calculate_baseline,
+    apply_baseline_correction,
+)
 
 __all__ = [
-    "pupil_metrics", 
-    "PupilFit"
+    # Fitting classes
+    "PupilFit",
+    # Pupil metrics functions
+    "baseline",
+    "transient_plr",
+    "plr_latency",
+    "constriction_v",
+    "peak_constriction",
+    "time_to_peak",
+    "pupil_escape",
+    "redilation_v",
+    "pipr_xs",
+    "pipr_6s",
+    "plateau",
+    "auc_early",
+    "auc_late",
+    "pipr_duration",
+    "net_pipr",
+    "get_average_size",
+    "calculate_baseline",
+    "apply_baseline_correction",
 ]
