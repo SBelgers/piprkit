@@ -68,8 +68,10 @@ class PupilBase(ABC):
         if ax is None:
             _, ax = plt.subplots()  # type: ignore
             ax.set_xlabel("Time (s)")  # type: ignore
-            ax.set_ylabel("Pupil Diameter (mm)")  # type: ignore
+            ax.set_ylabel("Pupil Diameter")  # type: ignore
         ax.plot(self.get_time(), self.get_size(), **kwargs)  # type: ignore
+        ax.set_xlabel("Time (s)") # type: ignore 
+        ax.set_ylabel("Pupil Diameter") # type: ignore
         if show:
             plt.show()  # type: ignore
 

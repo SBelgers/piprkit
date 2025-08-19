@@ -9,36 +9,65 @@ from scipy.optimize import curve_fit  # type: ignore
 
 from ...core.pupil_base import PupilBase
 
+# TODO: Add automatic phase detection and fitting. Check if t_constrict, t_sustain, and t_redilation is correctly implemented.
+
 """
-As described by Feigl et al (20...), the pupillary light response can be modelled using linear and exponential models.
+Pupillary Light Response Model
+
+Models pupil diameter changes in response to light stimuli using linear and
+exponential functions, based on Feigl et al. (2011).
 
 
+Phases:
+-------
 
+1. BASELINE (y = y0)
+    - Description: Flat linear model fit to 10s prestimulus period.
+    - Defined from:
+        - Start Time: -infinity
+        - End Time: light stimuli onset 
+    - Variables:
+        - y0: Baseline pupil diameter (mean before stimulus)
+2. PLR LATENCY PERIOD (y = undefined)
+    - Description: Undefined period after light onset and before constriction.
+    - Defined from:
+        - Start Time: light onset
+        - End Time: light onset + PLR latency
+3. CONSTRICT (y = cv * (x + t_constrict) + y0)
+    - Description: Linear model from light onset to max constriction.
+    - Defined from:
+        - Start: light onset + PLR latency
+        - End: time of maximum constriction
+    - Variables:
+        - x: Time since light onset
+        - t_constrict: Time shift to light onset + PLR latency
+        - cv: Constriction velocity
+        - y0: Baseline pupil diameter
+4. SUSTAINED (y = m * (x + t_sustained) + c)
+    - Description: Linear model from max constriction to light offset.
+    - Defined from:
+        - Start: time of maximum constriction
+        - End: light offset
+    - Variables:
+        - x: Time since max constriction
+        - t_sustained: Time shift to max constriction
+        - m: Slope of sustained constriction
+        - c: Diameter at max constriction
+5. REDILATION (y = S * exp(k * (x + t_redilation) + P)
+    - Description: Exponential model for redilation after light offset.
+    - Defined from:
+        - Start: light offset
+        - End: + infinity
+    - Variables:
+        - x: Time since light offset
+        - t_redilation: Time shift to light offset
+        - S: Scaling constant
+        - k: Redilation velocity
+        - P: Plateau pupil diameter
 
-Sections Overview:
-==================
-| Shorthand   | Function Name           | Description                                       | Function                      |
-|============ |======================== |===================================================|===============================|
-| BASELINE    | Baseline Estimation     | Fit a flat linear model (y = c) to the 10s        | y = c                         |
-|             |                         | prestimulus period to estimate the mean baseline  |                               |
-|             |                         | pupil diameter.                                   |                               |
-|------------ |------------------------ |---------------------------------------------------|-------------------------------|
-| CONSTRICT   | Constriction Phase      | Fit a linear model from light onset to            | y = m * (x + t) + c           |
-|             |                         | maximum constriction to capture constriction      |                               |
-|             |                         | velocity.                                         |                               |
-|------------ |------------------------ |---------------------------------------------------|-------------------------------|
-| SUSTAINED   | Sustained Constriction  | Fit a linear model from maximum constriction      | y = m * x + c                 |
-|             |                         | to light offset to describe maintained            |                               |
-|             |                         | constriction.                                     |                               |
-|------------ |------------------------ |---------------------------------------------------|-------------------------------|
-| REDILATION  | Redilation (PIPR)       | Fit an exponential model to describe redilation   | y = S * exp(k * x) + P        |
-|             |                         | kinetics after light offset. Parameters:          |                               |
-|             |                         | - S: scaling constant                             |                               |
-|             |                         | - k: redilation velocity (GR)                     |                               |
-|             |                         | - x: time in seconds                              |                               |
-|             |                         | - P: sustained plateau pupil diameter             |                               |
-|------------ |------------------------ |---------------------------------------------------|-------------------------------|
-
+Notes:
+------
+- All time values (x) are in seconds.
 """
 
 
@@ -58,20 +87,30 @@ class BaseFit(PupilBase):
         self,
         time_data: np.ndarray,
         size: np.ndarray,
-        start_time: float,
-        end_time: float,
+        start_time: Optional[float] = None,
+        end_time: Optional[float] = None,
     ) -> None:
         """Initialize BaseFit with time series data and phase boundaries.
+        1. BASELINE (y = y_0)
+            - Description: Flat linear model fit to 10s prestimulus period.
+            - Defined from:
+                - Start Time: -infinity
+                - End Time: light stimuli onset
+            - Variables:
+                - y_0: Baseline pupil diameter (mean before stimulus)
+
 
         Args:
             time_data (np.ndarray): Time data for the phase.
             size (np.ndarray): Pupil size data for the phase.
-            start_time (float): Start time of the phase.
-            end_time (float): End time of the phase.
+            estimated_start_time (Optional[float]): Estimated start time of the phase.
+            estimated_end_time (Optional[float]): Estimated end time of the phase.
 
         Raises:
             ValueError: If the input arrays have incompatible shapes.
         """
+        if start_time is None or end_time is None:
+            raise NotImplementedError("Automatic phase detection not implemented yet.")
         self.start_time = start_time
         self.end_time = end_time
         if len(time_data) != len(size):
@@ -81,6 +120,7 @@ class BaseFit(PupilBase):
         mask = (time_data >= start_time) & (time_data <= end_time)
         self.time_data = time_data[mask]
         self.size = size[mask]
+        self.set_time_offset(self.start_time)
 
     # ============================================================================
     # CORE DATA ACCESS METHODS

@@ -4,6 +4,7 @@ from ...core.pupil_measurement import PupilBase
 from ...utils.light_stimuli import LightStimulus
 from .phase_fits import FitBaseline, FitConstrict, FitRedilation, FitSustain
 
+#TODO Update to new formulas.
 
 class PupilFit:
     """Fit a model to the pupil measurement data."""

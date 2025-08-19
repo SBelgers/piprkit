@@ -4,7 +4,13 @@ import matplotlib.pyplot as plt
 class LightStimulus:
     """Represents a light stimulus with a start time, end time, and color.
     """    
-    def __init__(self, start_time: float = 0.0, duration: Optional[float] = None, end_time: Optional[float] = None, colour: Optional[str] = None):
+    def __init__(
+        self,
+        start_time: float = 0.0,
+        end_time: Optional[float] = None,
+        duration: Optional[float] = None,
+        colour: Optional[str] = None,
+    ):
         """Initialize a LightStimulus object.
 
         Args:
@@ -82,12 +88,10 @@ class LightStimulus:
         if ax is None:
             _, ax = plt.subplots()  # type: ignore
         start_time, end_time = self.get_time()
-        ax.fill_betweenx(  # type: ignore
-            [ax.get_ylim()[0], ax.get_ylim()[1]],
-            start_time,
-            end_time,
-            color=self.get_color(),
-        )
+
+        ax.axvspan(start_time, end_time, alpha=0.3, color=self.get_color(), label='Light Stimulus')  # type: ignore
+        ax.axvline(start_time, color='black', linestyle='--', alpha=0.7, label='_Light Onset')  # type: ignore
+        ax.axvline(end_time, color='black', linestyle='--', alpha=0.7, label='_Light Offset')  # type: ignore
         if show:
             plt.show()  # type: ignore
         return ax
