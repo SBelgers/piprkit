@@ -86,7 +86,7 @@ class PupilBase(ABC):
             start (float): The start time of the light stimulus.
             end (float): The end time of the light stimulus.
         """
-        self.light_stimulus = LightStimulus(start, end)
+        self.light_stimulus = LightStimulus(start_time=start, end_time=end)
 
     def get_light_stimulus(self) -> Optional[LightStimulus]:
         """Get the light stimulus object.
