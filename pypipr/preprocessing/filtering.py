@@ -61,7 +61,7 @@ def rolling_mean(pupil: PupilBase, time_window: float) -> None:
         pupil (PupilBase): The pupil measurement object to filter.
         time_window (float): The time window (in seconds) over which to apply the mean filter.
     """    
-    rolling_filter(pupil, np.mean, time_window)
+    rolling_filter(pupil, np.nanmean, time_window)
 
 
 def rolling_median(pupil: PupilBase, time_window: float) -> None:
@@ -71,7 +71,7 @@ def rolling_median(pupil: PupilBase, time_window: float) -> None:
         pupil (PupilBase): The pupil measurement object to filter.
         time_window (float): The time window (in seconds) over which to apply the median filter.
     """    
-    rolling_filter(pupil, np.median, time_window)
+    rolling_filter(pupil, np.nanmedian, time_window)
 
 
 def get_rate_of_change(pupil: PupilBase) -> NDArray[np.number]:
