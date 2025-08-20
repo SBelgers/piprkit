@@ -114,22 +114,24 @@ class PupilMeasurement(PupilBase):
             start_time (float, optional): The start time of the interval to keep. Defaults to None.
             end_time (float, optional): The end time of the interval to keep. Defaults to None.
         """
+
         size = self.get_size()
         size_mask = (size >= min_size) & (size <= max_size)
         trimmed_size = np.full_like(size, np.nan, dtype=np.float64)
         trimmed_size[size_mask] = size[size_mask]
 
         time_data = self.get_time()
-        if (start_time is not None) and (end_time is not None):
-            time_mask = (time_data >= start_time) & (time_data <= end_time)
-        else:
-            time_mask = np.full_like(time_data, True, dtype=bool)
-
-        size[time_mask] = trimmed_size[time_mask]
-
+        if start_time is None:
+            start_time = -np.inf
+        if end_time is None:
+            end_time = np.inf
+        time_mask = (time_data >= start_time) & (time_data <= end_time)
+        time_trimmed_size = size
+        time_trimmed_size[time_mask] = trimmed_size[time_mask]
+        
         self.set_time_and_size(
             time_data,
-            trimmed_size,
+            time_trimmed_size,
         )
         if drop:
             self.drop_nan()
