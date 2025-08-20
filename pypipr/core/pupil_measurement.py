@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import warnings
-from typing import Callable
+from typing import Callable, Optional
 
 import numpy as np
 from numpy.typing import NDArray
@@ -96,21 +96,40 @@ class PupilMeasurement(PupilBase):
         if drop:
             self.drop_nan()
 
-    def trim_size(self, min_size: float, max_size: float, drop: bool = False) -> None:
+    def trim_size(
+        self,
+        min_size: float,
+        max_size: float,
+        *,
+        start_time: Optional[float] = None,
+        end_time: Optional[float] = None,
+        drop: bool = False,
+    ) -> None:
         """Trim the size data to a specific range.
 
         Args:
             min_size (float): The minimum size of the interval to keep.
             max_size (float): The maximum size of the interval to keep.
             drop (bool, optional): Whether to drop NaN values after trimming. Defaults to False.
+            start_time (float, optional): The start time of the interval to keep. Defaults to None.
+            end_time (float, optional): The end time of the interval to keep. Defaults to None.
         """
         size = self.get_size()
-        mask = (size >= min_size) & (size <= max_size)
-        new_size = np.full_like(size, np.nan, dtype=np.float64)
-        new_size[mask] = size[mask]
+        size_mask = (size >= min_size) & (size <= max_size)
+        trimmed_size = np.full_like(size, np.nan, dtype=np.float64)
+        trimmed_size[size_mask] = size[size_mask]
+
+        time_data = self.get_time()
+        if (start_time is not None) and (end_time is not None):
+            time_mask = (time_data >= start_time) & (time_data <= end_time)
+        else:
+            time_mask = np.full_like(time_data, True, dtype=bool)
+
+        size[time_mask] = trimmed_size[time_mask]
+
         self.set_time_and_size(
-            self.get_time(),
-            new_size,
+            time_data,
+            trimmed_size,
         )
         if drop:
             self.drop_nan()
