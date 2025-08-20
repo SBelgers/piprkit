@@ -55,6 +55,7 @@ class PupilBase(ABC):
         self,
         ax: Optional[Axes] = None,
         show: bool = False,
+        scatter: bool = False,
         **kwargs: Any,
     ) -> None:
         """Plot pupil size over time.
@@ -69,11 +70,15 @@ class PupilBase(ABC):
             _, ax = plt.subplots()  # type: ignore
             ax.set_xlabel("Time (s)")  # type: ignore
             ax.set_ylabel("Pupil Diameter")  # type: ignore
-        ax.plot(self.get_time(), self.get_size(), **kwargs)  # type: ignore
-        ax.set_xlabel("Time (s)") # type: ignore 
-        ax.set_ylabel("Pupil Diameter") # type: ignore
+        if scatter:
+            ax.scatter(self.get_time(), self.get_size(), **kwargs) # type: ignore
+        else:
+            ax.plot(self.get_time(), self.get_size(), **kwargs)  # type: ignore
+        ax.set_xlabel("Time (s)")  # type: ignore
+        ax.set_ylabel("Pupil Diameter")  # type: ignore
         if show:
             plt.show()  # type: ignore
+            
 
     # ============================================================================
     # LIGHT STIMULUS MANAGEMENT
