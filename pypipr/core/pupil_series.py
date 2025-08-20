@@ -107,9 +107,8 @@ class PupilSeries(PupilMeasurement):
 
             series.append(PupilMeasurement(time.copy(), size.copy()))
             series[-1].trim_time(start, end, drop=True)
-            series[-1].set_time_offset(-light_end)
-
             series[-1].set_light_stimulus(light_start, light_end)
+            # series[-1].set_time_offset(-light_end)
 
         return series
 
