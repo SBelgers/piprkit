@@ -1,0 +1,419 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pypipr.load_simulated_pupil &mdash; Pypipr 0.0.10</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=a83ce22a"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="pypipr.load_real_series" href="pypipr.load_real_series.html" />
+    <link rel="prev" title="pypipr.LightStimuliSeries" href="pypipr.LightStimuliSeries.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Pypipr
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="pypipr.PupilMeasurement.html">pypipr.PupilMeasurement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.__init__"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#id0"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.set_time_offset"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.set_time_offset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.interpolate"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.interpolate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.drop_nan"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.drop_nan()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.trim_time"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.trim_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.trim_size"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.trim_size()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.rolling_filter"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.rolling_filter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.rolling_mean"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.rolling_mean()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.rolling_median"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.rolling_median()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.get_rate_of_change"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.get_rate_of_change()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.limit_rate_of_change"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.limit_rate_of_change()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.get_average_size"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.get_average_size()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.calculate_baseline"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.calculate_baseline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.apply_baseline_correction"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.apply_baseline_correction()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.find_blinks"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.find_blinks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.set_blinks"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.set_blinks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement.get_blinks"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.get_blinks()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pypipr.PupilSeries.html">pypipr.PupilSeries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.PupilSeries.html#pypipr.PupilSeries"><code class="docutils literal notranslate"><span class="pre">PupilSeries</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilSeries.html#pypipr.PupilSeries.__init__"><code class="docutils literal notranslate"><span class="pre">PupilSeries.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilSeries.html#id0"><code class="docutils literal notranslate"><span class="pre">PupilSeries.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilSeries.html#pypipr.PupilSeries.set_light_stimulus"><code class="docutils literal notranslate"><span class="pre">PupilSeries.set_light_stimulus()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilSeries.html#pypipr.PupilSeries.get_light_stimulus"><code class="docutils literal notranslate"><span class="pre">PupilSeries.get_light_stimulus()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilSeries.html#pypipr.PupilSeries.set_light_stimuli_from_list"><code class="docutils literal notranslate"><span class="pre">PupilSeries.set_light_stimuli_from_list()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilSeries.html#pypipr.PupilSeries.get_light_stimuli"><code class="docutils literal notranslate"><span class="pre">PupilSeries.get_light_stimuli()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilSeries.html#pypipr.PupilSeries.split"><code class="docutils literal notranslate"><span class="pre">PupilSeries.split()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilSeries.html#pypipr.PupilSeries.plot_light_stimulus"><code class="docutils literal notranslate"><span class="pre">PupilSeries.plot_light_stimulus()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pypipr.PupilFit.html">pypipr.PupilFit</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.PupilFit.html#pypipr.PupilFit"><code class="docutils literal notranslate"><span class="pre">PupilFit</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilFit.html#pypipr.PupilFit.__init__"><code class="docutils literal notranslate"><span class="pre">PupilFit.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilFit.html#id0"><code class="docutils literal notranslate"><span class="pre">PupilFit.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilFit.html#pypipr.PupilFit.get_time"><code class="docutils literal notranslate"><span class="pre">PupilFit.get_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilFit.html#pypipr.PupilFit.get_light_stimulus"><code class="docutils literal notranslate"><span class="pre">PupilFit.get_light_stimulus()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilFit.html#pypipr.PupilFit.predict"><code class="docutils literal notranslate"><span class="pre">PupilFit.predict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilFit.html#pypipr.PupilFit.get_param"><code class="docutils literal notranslate"><span class="pre">PupilFit.get_param()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilFit.html#pypipr.PupilFit.get_all_params"><code class="docutils literal notranslate"><span class="pre">PupilFit.get_all_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.PupilFit.html#pypipr.PupilFit.get_formula_strings"><code class="docutils literal notranslate"><span class="pre">PupilFit.get_formula_strings()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pypipr.LightStimulus.html">pypipr.LightStimulus</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.LightStimulus.html#pypipr.LightStimulus"><code class="docutils literal notranslate"><span class="pre">LightStimulus</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.LightStimulus.html#pypipr.LightStimulus.__init__"><code class="docutils literal notranslate"><span class="pre">LightStimulus.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.LightStimulus.html#id0"><code class="docutils literal notranslate"><span class="pre">LightStimulus.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.LightStimulus.html#pypipr.LightStimulus.get_time"><code class="docutils literal notranslate"><span class="pre">LightStimulus.get_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.LightStimulus.html#pypipr.LightStimulus.get_color"><code class="docutils literal notranslate"><span class="pre">LightStimulus.get_color()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.LightStimulus.html#pypipr.LightStimulus.set_time_offset"><code class="docutils literal notranslate"><span class="pre">LightStimulus.set_time_offset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.LightStimulus.html#pypipr.LightStimulus.plot"><code class="docutils literal notranslate"><span class="pre">LightStimulus.plot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pypipr.LightStimuliSeries.html">pypipr.LightStimuliSeries</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.LightStimuliSeries.html#pypipr.LightStimuliSeries"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.LightStimuliSeries.html#pypipr.LightStimuliSeries.__init__"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.LightStimuliSeries.html#id0"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.__init__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.LightStimuliSeries.html#pypipr.LightStimuliSeries.add_stimulus"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.add_stimulus()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.LightStimuliSeries.html#pypipr.LightStimuliSeries.get_stimuli"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.get_stimuli()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.LightStimuliSeries.html#pypipr.LightStimuliSeries.get_times"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.get_times()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.LightStimuliSeries.html#pypipr.LightStimuliSeries.get_colors"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.get_colors()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.LightStimuliSeries.html#pypipr.LightStimuliSeries.set_time_offset"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.set_time_offset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.LightStimuliSeries.html#pypipr.LightStimuliSeries.plot"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.plot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">pypipr.load_simulated_pupil</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pypipr.load_simulated_pupil"><code class="docutils literal notranslate"><span class="pre">load_simulated_pupil()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pypipr.load_real_series.html">pypipr.load_real_series</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.load_real_series.html#pypipr.load_real_series"><code class="docutils literal notranslate"><span class="pre">load_real_series()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pypipr.simulate_pupil_measurement.html">pypipr.simulate_pupil_measurement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.simulate_pupil_measurement.html#pypipr.simulate_pupil_measurement"><code class="docutils literal notranslate"><span class="pre">simulate_pupil_measurement()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pypipr.check_time_series.html">pypipr.check_time_series</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.check_time_series.html#pypipr.check_time_series"><code class="docutils literal notranslate"><span class="pre">check_time_series()</span></code></a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pypipr.core.html">pypipr.core</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.core.pupil_base.html">pypipr.core.pupil_base</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.core.pupil_base.html#pypipr.core.pupil_base.PupilBase"><code class="docutils literal notranslate"><span class="pre">PupilBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_base.html#pypipr.core.pupil_base.PupilBase.set_time_and_size"><code class="docutils literal notranslate"><span class="pre">PupilBase.set_time_and_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_base.html#pypipr.core.pupil_base.PupilBase.get_time"><code class="docutils literal notranslate"><span class="pre">PupilBase.get_time()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_base.html#pypipr.core.pupil_base.PupilBase.get_size"><code class="docutils literal notranslate"><span class="pre">PupilBase.get_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_base.html#pypipr.core.pupil_base.PupilBase.copy"><code class="docutils literal notranslate"><span class="pre">PupilBase.copy()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_base.html#pypipr.core.pupil_base.PupilBase.plot"><code class="docutils literal notranslate"><span class="pre">PupilBase.plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_base.html#pypipr.core.pupil_base.PupilBase.set_light_stimulus"><code class="docutils literal notranslate"><span class="pre">PupilBase.set_light_stimulus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_base.html#pypipr.core.pupil_base.PupilBase.get_light_stimulus"><code class="docutils literal notranslate"><span class="pre">PupilBase.get_light_stimulus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_base.html#pypipr.core.pupil_base.PupilBase.plot_light_stimulus"><code class="docutils literal notranslate"><span class="pre">PupilBase.plot_light_stimulus()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.core.pupil_measurement.html">pypipr.core.pupil_measurement</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.__init__"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.set_time_offset"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.set_time_offset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.interpolate"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.interpolate()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.drop_nan"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.drop_nan()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.trim_time"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.trim_time()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.trim_size"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.trim_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.rolling_filter"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.rolling_filter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.rolling_mean"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.rolling_mean()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.rolling_median"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.rolling_median()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.get_rate_of_change"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.get_rate_of_change()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.limit_rate_of_change"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.limit_rate_of_change()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.get_average_size"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.get_average_size()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.calculate_baseline"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.calculate_baseline()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.apply_baseline_correction"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.apply_baseline_correction()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.find_blinks"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.find_blinks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.set_blinks"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.set_blinks()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement.get_blinks"><code class="docutils literal notranslate"><span class="pre">PupilMeasurement.get_blinks()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.core.pupil_series.html">pypipr.core.pupil_series</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.core.pupil_series.html#pypipr.core.pupil_series.PupilSeries"><code class="docutils literal notranslate"><span class="pre">PupilSeries</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_series.html#pypipr.core.pupil_series.PupilSeries.__init__"><code class="docutils literal notranslate"><span class="pre">PupilSeries.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_series.html#pypipr.core.pupil_series.PupilSeries.set_light_stimulus"><code class="docutils literal notranslate"><span class="pre">PupilSeries.set_light_stimulus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_series.html#pypipr.core.pupil_series.PupilSeries.get_light_stimulus"><code class="docutils literal notranslate"><span class="pre">PupilSeries.get_light_stimulus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_series.html#pypipr.core.pupil_series.PupilSeries.set_light_stimuli_from_list"><code class="docutils literal notranslate"><span class="pre">PupilSeries.set_light_stimuli_from_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_series.html#pypipr.core.pupil_series.PupilSeries.get_light_stimuli"><code class="docutils literal notranslate"><span class="pre">PupilSeries.get_light_stimuli()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_series.html#pypipr.core.pupil_series.PupilSeries.split"><code class="docutils literal notranslate"><span class="pre">PupilSeries.split()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.core.pupil_series.html#pypipr.core.pupil_series.PupilSeries.plot_light_stimulus"><code class="docutils literal notranslate"><span class="pre">PupilSeries.plot_light_stimulus()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pypipr.analysis.html">pypipr.analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.analysis.fitting.html">pypipr.analysis.fitting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.fitting.base_fit.html">pypipr.analysis.fitting.base_fit</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.analysis.fitting.base_fit.html#pypipr.analysis.fitting.base_fit.BaseFit"><code class="docutils literal notranslate"><span class="pre">BaseFit</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.fitting.phase_fits.html">pypipr.analysis.fitting.phase_fits</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.analysis.fitting.phase_fits.html#pypipr.analysis.fitting.phase_fits.FitBaseline"><code class="docutils literal notranslate"><span class="pre">FitBaseline</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.analysis.fitting.phase_fits.html#pypipr.analysis.fitting.phase_fits.FitLatency"><code class="docutils literal notranslate"><span class="pre">FitLatency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.analysis.fitting.phase_fits.html#pypipr.analysis.fitting.phase_fits.FitConstrict"><code class="docutils literal notranslate"><span class="pre">FitConstrict</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.analysis.fitting.phase_fits.html#pypipr.analysis.fitting.phase_fits.FitSustain"><code class="docutils literal notranslate"><span class="pre">FitSustain</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.analysis.fitting.phase_fits.html#pypipr.analysis.fitting.phase_fits.FitRedilation"><code class="docutils literal notranslate"><span class="pre">FitRedilation</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.fitting.pupil_fit.html">pypipr.analysis.fitting.pupil_fit</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.analysis.fitting.pupil_fit.html#pypipr.analysis.fitting.pupil_fit.PupilFit"><code class="docutils literal notranslate"><span class="pre">PupilFit</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html">pypipr.analysis.pupil_metrics</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.baseline"><code class="docutils literal notranslate"><span class="pre">baseline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.transient_plr"><code class="docutils literal notranslate"><span class="pre">transient_plr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.plr_latency"><code class="docutils literal notranslate"><span class="pre">plr_latency()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.constriction_v"><code class="docutils literal notranslate"><span class="pre">constriction_v()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.peak_constriction"><code class="docutils literal notranslate"><span class="pre">peak_constriction()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.time_to_peak"><code class="docutils literal notranslate"><span class="pre">time_to_peak()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.pupil_escape"><code class="docutils literal notranslate"><span class="pre">pupil_escape()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.redilation_v"><code class="docutils literal notranslate"><span class="pre">redilation_v()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.pipr_xs"><code class="docutils literal notranslate"><span class="pre">pipr_xs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.pipr_6s"><code class="docutils literal notranslate"><span class="pre">pipr_6s()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.plateau"><code class="docutils literal notranslate"><span class="pre">plateau()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.auc_early"><code class="docutils literal notranslate"><span class="pre">auc_early()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.auc_late"><code class="docutils literal notranslate"><span class="pre">auc_late()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.pipr_duration"><code class="docutils literal notranslate"><span class="pre">pipr_duration()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.net_pipr"><code class="docutils literal notranslate"><span class="pre">net_pipr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.get_average_size"><code class="docutils literal notranslate"><span class="pre">get_average_size()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.calculate_baseline"><code class="docutils literal notranslate"><span class="pre">calculate_baseline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.analysis.pupil_metrics.html#pypipr.analysis.pupil_metrics.apply_baseline_correction"><code class="docutils literal notranslate"><span class="pre">apply_baseline_correction()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pypipr.preprocessing.html">pypipr.preprocessing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.preprocessing.blinks.html">pypipr.preprocessing.blinks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.preprocessing.filtering.html">pypipr.preprocessing.filtering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.preprocessing.filtering.html#pypipr.preprocessing.filtering.rolling_filter"><code class="docutils literal notranslate"><span class="pre">rolling_filter()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.preprocessing.filtering.html#pypipr.preprocessing.filtering.rolling_mean"><code class="docutils literal notranslate"><span class="pre">rolling_mean()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.preprocessing.filtering.html#pypipr.preprocessing.filtering.rolling_median"><code class="docutils literal notranslate"><span class="pre">rolling_median()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.preprocessing.filtering.html#pypipr.preprocessing.filtering.get_rate_of_change"><code class="docutils literal notranslate"><span class="pre">get_rate_of_change()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.preprocessing.filtering.html#pypipr.preprocessing.filtering.limit_rate_of_change"><code class="docutils literal notranslate"><span class="pre">limit_rate_of_change()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pypipr.data.html">pypipr.data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.data.loaders.html">pypipr.data.loaders</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.data.loaders.html#pypipr.data.loaders.load_simulated_pupil"><code class="docutils literal notranslate"><span class="pre">load_simulated_pupil()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.data.loaders.html#pypipr.data.loaders.load_real_series"><code class="docutils literal notranslate"><span class="pre">load_real_series()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.data.loaders.html#pypipr.data.loaders.simulate_pupil_measurement"><code class="docutils literal notranslate"><span class="pre">simulate_pupil_measurement()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pypipr.utils.html">pypipr.utils</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.utils.light_stimuli.html">pypipr.utils.light_stimuli</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.utils.light_stimuli.html#pypipr.utils.light_stimuli.LightStimulus"><code class="docutils literal notranslate"><span class="pre">LightStimulus</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.utils.light_stimuli.html#pypipr.utils.light_stimuli.LightStimulus.__init__"><code class="docutils literal notranslate"><span class="pre">LightStimulus.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.utils.light_stimuli.html#pypipr.utils.light_stimuli.LightStimulus.get_time"><code class="docutils literal notranslate"><span class="pre">LightStimulus.get_time()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.utils.light_stimuli.html#pypipr.utils.light_stimuli.LightStimulus.get_color"><code class="docutils literal notranslate"><span class="pre">LightStimulus.get_color()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.utils.light_stimuli.html#pypipr.utils.light_stimuli.LightStimulus.set_time_offset"><code class="docutils literal notranslate"><span class="pre">LightStimulus.set_time_offset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.utils.light_stimuli.html#pypipr.utils.light_stimuli.LightStimulus.plot"><code class="docutils literal notranslate"><span class="pre">LightStimulus.plot()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.utils.light_stimuli.html#pypipr.utils.light_stimuli.LightStimuliSeries"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.utils.light_stimuli.html#pypipr.utils.light_stimuli.LightStimuliSeries.__init__"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.utils.light_stimuli.html#pypipr.utils.light_stimuli.LightStimuliSeries.add_stimulus"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.add_stimulus()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.utils.light_stimuli.html#pypipr.utils.light_stimuli.LightStimuliSeries.get_stimuli"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.get_stimuli()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.utils.light_stimuli.html#pypipr.utils.light_stimuli.LightStimuliSeries.get_times"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.get_times()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.utils.light_stimuli.html#pypipr.utils.light_stimuli.LightStimuliSeries.get_colors"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.get_colors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.utils.light_stimuli.html#pypipr.utils.light_stimuli.LightStimuliSeries.set_time_offset"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.set_time_offset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="pypipr.utils.light_stimuli.html#pypipr.utils.light_stimuli.LightStimuliSeries.plot"><code class="docutils literal notranslate"><span class="pre">LightStimuliSeries.plot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pypipr.utils.utils.html">pypipr.utils.utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pypipr.utils.utils.html#pypipr.utils.utils.check_time_series"><code class="docutils literal notranslate"><span class="pre">check_time_series()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples/pupil_measurement.html">Pupil Measurement Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/pupil_measurement.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/pupil_measurement.html#getting-started">Getting Started</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/pupil_series.html">Pupil Series Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/pupil_series.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/pupil_series.html#workflow">Workflow</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Additional Information:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#installation-from-pypi">Installation from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#development-installation">Development Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#optional-dependencies">Optional Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#verification">Verification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#development-setup">Development Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#running-tests">Running Tests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#code-style">Code Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#submitting-changes">Submitting Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#bug-reports">Bug Reports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#feature-requests">Feature Requests</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#code-of-conduct">Code of Conduct</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#version-0-0-10-current">Version 0.0.10 (Current)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#future-releases">Future Releases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#version-history">Version History</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../license.html#copyright-information">Copyright Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../license.html#license-terms">License Terms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../license.html#mit-license">MIT License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../license.html#third-party-dependencies">Third-Party Dependencies</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Pypipr</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">pypipr.load_simulated_pupil</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_autosummary/pypipr.load_simulated_pupil.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pypipr-load-simulated-pupil">
+<h1>pypipr.load_simulated_pupil<a class="headerlink" href="#pypipr-load-simulated-pupil" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pypipr.load_simulated_pupil">
+<span class="sig-prename descclassname"><span class="pre">pypipr.</span></span><span class="sig-name descname"><span class="pre">load_simulated_pupil</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blue_or_red</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'blue'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="pypipr.core.pupil_measurement.html#pypipr.core.pupil_measurement.PupilMeasurement" title="pypipr.core.pupil_measurement.PupilMeasurement"><span class="pre">PupilMeasurement</span></a></span></span><a class="reference internal" href="../_modules/pypipr/data/loaders.html#load_simulated_pupil"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypipr.load_simulated_pupil" title="Link to this definition"></a></dt>
+<dd><p>Load a simulated pupil light response trace.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>blue_or_red</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em>, </em><em>default &quot;blue&quot;</em>) – Which simulated trace to load: “blue” or “red”</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A PupilMeasurement object with simulated pupil response data</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="pypipr.PupilMeasurement.html#pypipr.PupilMeasurement" title="pypipr.PupilMeasurement">PupilMeasurement</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If blue_or_red is not “blue” or “red”</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pypipr.LightStimuliSeries.html" class="btn btn-neutral float-left" title="pypipr.LightStimuliSeries" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pypipr.load_real_series.html" class="btn btn-neutral float-right" title="pypipr.load_real_series" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, S. Belgers.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
