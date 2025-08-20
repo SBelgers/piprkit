@@ -7,8 +7,8 @@ class LightStimulus:
     def __init__(
         self,
         start_time: float = 0.0,
-        end_time: Optional[float] = None,
         duration: Optional[float] = None,
+        end_time: Optional[float] = None,
         colour: Optional[str] = None,
     ):
         """Initialize a LightStimulus object.
