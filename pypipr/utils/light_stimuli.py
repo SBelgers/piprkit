@@ -67,8 +67,8 @@ class LightStimulus:
         Args:
             offset (float): The offset to apply to the start and end times.
         """        
-        self.start_time += offset
-        self.end_time += offset
+        start_time, end_time = self.get_time()
+        self._set_time(start_time=start_time + offset, end_time=end_time + offset)
 
     def plot(
         self,
