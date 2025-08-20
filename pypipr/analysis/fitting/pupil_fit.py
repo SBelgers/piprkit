@@ -15,8 +15,10 @@ class PupilFit:
         Args:
             pupil_measurement (PupilMeasurement): The pupil measurement data to fit.
         """
-        if pupil_measurement.get_light_stimulus() is None:
+        light_stimulus = pupil_measurement.get_light_stimulus()
+        if light_stimulus is None:
             raise ValueError("Light stimulus not set. Cannot setup fits.")
+        self._set_light_stimulus(light_stimulus)
         self.pupil_measurement = pupil_measurement.copy()
         self._set_time(pupil_measurement.get_time())
         self._setup_fits()
