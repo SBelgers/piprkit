@@ -19,8 +19,8 @@ class LightStimulus:
             end_time (Optional[float], optional): The end time of the stimulus. Defaults to None.
             colour (Optional[str], optional): The color of the stimulus. Defaults to None.
         """        
-        self._set_time(start_time, duration, end_time)
-        self._set_color(colour)
+        self._set_time(start_time=start_time, duration=duration, end_time=end_time)
+        self._set_color(color=colour)
     
     def __repr__(self):
         return f"LightStimulus(start_time={self.start_time}, end_time={self.end_time}, color={self.color})"
@@ -117,7 +117,7 @@ class LightStimuliSeries:
             end_time (Optional[float], optional): The end time of the light stimulus. Defaults to None.
             colour (Optional[str], optional): The color of the light stimulus. Defaults to None.
         """        
-        stimulus = LightStimulus(start_time, duration, end_time, colour)
+        stimulus = LightStimulus(start_time=start_time, duration=duration, end_time=end_time, colour=colour)
         self._add_stimulus_from_class(stimulus)
 
     def get_stimuli(self) -> list[LightStimulus]:
