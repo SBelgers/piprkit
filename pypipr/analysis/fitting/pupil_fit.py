@@ -8,7 +8,7 @@ from .phase_fits import FitBaseline, FitConstrict, FitRedilation, FitSustain
 # TODO Update to new formulas.
 
 
-class PupilFit(BaseFit):
+class PupilFit(PupilBase):
     """Fit a model to the pupil measurement data."""
 
     def __init__(self, pupil_measurement: PupilBase) -> None:
@@ -31,6 +31,9 @@ class PupilFit(BaseFit):
 
     def get_time(self) -> np.ndarray:
         return self.time_data
+    
+    def get_size(self) -> np.ndarray:
+        return self.predict(self.get_time())
 
     def _set_light_stimulus(self, stimulus: LightStimulus) -> None:
         self.stimulus = stimulus
