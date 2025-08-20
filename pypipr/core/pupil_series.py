@@ -1,3 +1,4 @@
+import warnings
 from typing import Any, Optional, override
 
 import numpy as np
@@ -96,7 +97,14 @@ class PupilSeries(PupilMeasurement):
         """
         if not hasattr(self, "light_stimuli"):
             raise ValueError("Light stimuli list is not set.")
-
+        if prepulse_duration < 0:
+            warnings.warn(
+                f"prepulse_duration should be a positive number if time before the pulse is included. Is {prepulse_duration} correct?"
+            )
+        if postpulse_duration < 0:
+            warnings.warn(
+                f"postpulse_duration should be a positive number if time after the pulse is included. Is {postpulse_duration} correct?"
+            )
         series: list[PupilMeasurement] = []
         light_stimulus_list = self.light_stimuli.get_times()
         time, size = self.get_time(), self.get_size()
