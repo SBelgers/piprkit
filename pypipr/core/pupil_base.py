@@ -70,6 +70,9 @@ class PupilBase(ABC):
             _, ax = plt.subplots()  # type: ignore
             ax.set_xlabel("Time (s)")  # type: ignore
             ax.set_ylabel("Pupil Diameter")  # type: ignore
+        kwargs.pop("scatter", None)
+        kwargs.pop("show", None)
+        kwargs.pop('ax', None)
         if scatter:
             ax.scatter(self.get_time(), self.get_size(), **kwargs) # type: ignore
         else:
