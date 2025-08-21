@@ -158,9 +158,9 @@ class PupilMeasurement(PupilBase):
         """Wrapper for get rate of change method. See `filtering.get_rate_of_change` for details."""
         return filtering.get_rate_of_change(self)
 
-    def limit_rate_of_change(self, max_rate_of_change: float) -> None:
+    def limit_rate_of_change(self, max_rate_of_change: float, n_back: int=1) -> None:
         """Wrapper for limit rate of change method. See `filtering.limit_rate_of_change` for details."""
-        filtering.limit_rate_of_change(self, max_rate_of_change)
+        filtering.limit_rate_of_change(self, max_rate_of_change, n_back=n_back)
 
     # ============================================================================
     # ANALYSIS METHODS (WRAPPER METHODS)
