@@ -124,10 +124,14 @@ def limit_rate_of_change(
 
     roc_mask = np.full_like(pupil.get_size(), True, dtype=bool)
 
-
     for i in range(1, n_back + 1):
-        rate_of_change = get_rate_of_change(pupil, n_back=i)    
-        iteration_roc_mask = np.abs(rate_of_change) > max_rate_of_change
+        rate_of_change = get_rate_of_change(pupil, n_back=i)
+        # If rate_of_change is nan or zero, do nothing (keep True in mask)
+        iteration_roc_mask = np.where(
+            np.isnan(rate_of_change),
+            True,
+            np.abs(rate_of_change) <= max_rate_of_change
+        )
         roc_mask = roc_mask & iteration_roc_mask
     combined_mask = roc_mask & time_mask
     size = pupil.get_size().copy()
