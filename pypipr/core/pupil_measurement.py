@@ -154,7 +154,7 @@ class PupilMeasurement(PupilBase):
         """Wrapper for rolling median method. See `filtering.rolling_median` for details."""
         filtering.rolling_median(self, time_window)
 
-    def get_rate_of_change(self) -> NDArray[np.number]:
+    def get_rate_of_change(self, n_back: int = 1) -> NDArray[np.number]:
         """Wrapper for get rate of change method. See `filtering.get_rate_of_change` for details."""
         return filtering.get_rate_of_change(self)
 
