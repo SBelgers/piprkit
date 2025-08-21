@@ -88,8 +88,8 @@ def get_rate_of_change(pupil: PupilBase, n_back: int = 1) -> NDArray[np.number]:
     time_data = pupil.get_time()
     size = pupil.get_size()
     
-    dt = np.diff(time_data, n=n_back)
-    ds = np.diff(size, n=n_back)
+    dt = time_data[n_back:] - time_data[:-n_back]
+    ds = size[n_back:] - size[:-n_back]
     rate_of_change = np.full_like(size, np.nan, dtype=np.float64)
     rate_of_change[n_back:] = ds / dt
     return rate_of_change
