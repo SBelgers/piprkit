@@ -5,7 +5,10 @@ from abc import abstractmethod
 from typing import Any, Optional, Sequence, Union, override
 
 import numpy as np
-from scipy.optimize import curve_fit  # type: ignore
+from scipy.optimize import ( # type: ignore
+    curve_fit,  # type: ignore
+    minimize,  # type: ignore
+)
 
 from ...core.pupil_base import PupilBase
 
@@ -133,10 +136,11 @@ class BaseFit(PupilBase):
     @override
     def get_size(self) -> np.ndarray:
         return self.predict(self.get_time())
-    
+
     def get_start_time(self) -> float:
         """Get the start time of the phase."""
         return self.start_time
+
     def get_end_time(self) -> float:
         """Get the end time of the phase."""
         return self.end_time
@@ -213,6 +217,16 @@ class BaseFit(PupilBase):
         time_offset = time_data + self.get_time_offset()
         return self._model_function(time_offset, *self.get_params())
 
+    def goodness_of_fit(self, method: str = "MAE") -> float:
+        options = ["MAE"]
+        if method not in options:
+            raise ValueError(f"Unknown method: {method}")
+        if method == "MAE":
+            return np.nanmean(np.abs(self.size - self.predict(self.get_time()))).astype(
+                float
+            )  # type: ignore
+        return np.nan
+
     # ============================================================================
     # ABSTRACT METHODS (TO BE IMPLEMENTED BY SUBCLASSES)
     # ============================================================================
@@ -226,3 +240,47 @@ class BaseFit(PupilBase):
     def get_formula_string(self) -> str:
         """Get a string representation of the fitted model formula."""
         pass
+
+    # -----------------------------------------------------------------------------
+    # Utility: Optimize phase boundaries for best fit
+    # -----------------------------------------------------------------------------
+
+    def optimize_phase_boundary_and_params(
+        self,
+        time_data: np.ndarray,
+        size: np.ndarray,
+        estimated_time: tuple[float, float],
+        time_bounds: list[tuple[float, float]],
+        estimated_fit_params: list[float],
+        fit_param_bounds: list[tuple[float, float]],
+    ):
+        """
+        Optimize start/end times and fit parameters to minimize fit error.
+
+        Args:
+            time_data (np.ndarray): Full time data.
+            size (np.ndarray): Full size data.
+            estimated_time (tuple[float, float]): Initial guess for (start, end) times.
+            time_bounds (list[tuple[float, float]]): Bounds for start/end times.
+            estimated_fit_params (list[float]): Initial guess for fit parameters.
+            fit_param_bounds (list[tuple[float, float]]): Bounds for fit parameters.
+
+        Returns:
+            result: scipy.optimize.OptimizeResult
+        """
+
+        def optimize_time_func(start_time: float, end_time: float):
+            # create a new copy of self
+            new_fit = type(self)(
+                time_data=time_data,
+                size=size,
+                start_time=start_time,
+                end_time=end_time,
+            )
+            new_fit.fit()
+            return new_fit.goodness_of_fit()
+
+        x0 = estimated_time
+        bounds = time_bounds + fit_param_bounds
+        result = minimize(optimize_time_func, x0, bounds=bounds, method="L-BFGS-B")
+        return result
