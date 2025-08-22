@@ -173,9 +173,17 @@ class PupilMeasurement(PupilBase):
         """Wrapper for calculate baseline method. See `pupil_metrics.calculate_baseline` for details."""
         return pupil_metrics.calculate_baseline(self, duration)
 
-    def apply_baseline_correction(self, baseline: float) -> None:
-        """Wrapper for apply baseline correction method. See `pupil_metrics.apply_baseline_correction` for details."""
-        pupil_metrics.apply_baseline_correction(self, baseline)
+    def apply_baseline_correction(self, duration: float = 10) -> None:
+        """Apply baseline correction to pupil size data.
+
+        Args:
+            pupil (PupilMeasurement): The pupil measurement object to correct
+            duration (float): Duration for baseline calculation
+        """
+        baseline = self.calculate_baseline(duration)
+        size_relative = self.get_size() / baseline
+        self.set_time_and_size(self.get_time(), size_relative)
+
 
     # ============================================================================
     # BLINK MANAGEMENT
