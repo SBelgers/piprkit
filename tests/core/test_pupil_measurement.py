@@ -99,7 +99,6 @@ def test_trim_size():
     pm.trim_size(6.1, 6.4)
     expected_size =[np.nan, 6.1, np.nan, 6.3, 6.4, np.nan] 
     np.testing.assert_allclose(pm.get_size(),expected_size,equal_nan=True)
-    
     pm = PupilMeasurement(time_data, size)
     pm.trim_size(10, 20)
     expected_size = [np.nan, np.nan, np.nan, np.nan, np.nan, np.nan]
@@ -118,6 +117,16 @@ def test_trim_size():
     np.testing.assert_allclose(
         pm.get_size(),
         size,
+        equal_nan=True,
+    )
+    
+    pm = PupilMeasurement(time_data, size)
+    pm.trim_size(0, 2, start_time=1, end_time=4)
+    expected_size = [6.0, np.nan, np.nan, np.nan, np.nan, 6.5]
+
+    np.testing.assert_allclose(
+        pm.get_size(),
+        expected_size,
         equal_nan=True,
     )
 

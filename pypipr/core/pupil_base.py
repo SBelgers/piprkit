@@ -26,14 +26,22 @@ class PupilBase(ABC):
         """
         if len(time_data) != len(size):
             raise ValueError("Time and size must have the same length")
-        self.time_data = time_data
-        self.size = size
+        self.time_data = time_data.copy()
+        self.size = size.copy()
 
     def get_time(self) -> np.ndarray:
         return self.time_data
 
     def get_size(self) -> np.ndarray:
         return self.size
+
+    def __repr__(self) -> str:
+        return (
+            f"{self.__class__.__name__}("
+            f"time_data.shape={getattr(self, 'time_data', np.array([])).shape}, "
+            f"size.shape={getattr(self, 'size', np.array([])).shape}, "
+            f"light_stimulus={getattr(self, 'light_stimulus', None)})"
+        )
 
     # ============================================================================
     # UTILITY METHODS
@@ -57,7 +65,7 @@ class PupilBase(ABC):
         show: bool = False,
         scatter: bool = False,
         **kwargs: Any,
-    ) -> None:
+    ) -> Axes:
         """Plot pupil size over time.
 
         Args:
@@ -81,7 +89,7 @@ class PupilBase(ABC):
         ax.set_ylabel("Pupil Diameter")  # type: ignore
         if show:
             plt.show()  # type: ignore
-            
+        return ax
 
     # ============================================================================
     # LIGHT STIMULUS MANAGEMENT

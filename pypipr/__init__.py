@@ -3,8 +3,13 @@ from .core.pupil_measurement import PupilMeasurement
 from .core.pupil_series import PupilSeries
 from .analysis.fitting.pupil_fit import PupilFit
 from .analysis import pupil_metrics
-
-# TODO Clean up the below imports, they are badly structured.
+from .analysis.fitting.phase_fits import (
+    FitBaseline,
+    FitLatency,
+    FitSustain,
+    FitRedilation,
+    FitConstrict,
+)
 from .data.loaders import (
     load_simulated_pupil,
     load_real_series,
@@ -28,6 +33,11 @@ __all__ = [
     "simulate_pupil_measurement",
     # Analysis/metrics functions
     "pupil_metrics",
+    "FitBaseline",
+    "FitLatency",
+    "FitSustain",
+    "FitRedilation",
+    "FitConstrict",
     # Preprocessing functions
     "filtering",
     # Utility functions and classes

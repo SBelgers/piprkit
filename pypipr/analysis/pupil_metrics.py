@@ -62,21 +62,8 @@ def baseline(pupil_measurement: PupilMeasurement, duration: float = 10) -> float
     Returns:
         float: The average pupil size during the baseline period.
     """
-    light_stimulus = pupil_measurement.get_light_stimulus()
-    if light_stimulus is None:
-        raise ValueError("Light stimulus not set. Cannot find baseline.")
-    stimulus_start, stimulus_end = light_stimulus.get_time()
-    baseline_start = stimulus_start - duration
-    baseline_end = stimulus_end
-    time_data = pupil_measurement.get_time()
-    if baseline_start < time_data[0] or baseline_end > time_data[-1]:
-        raise ValueError(
-            f"Baseline period of ({baseline_start}, {baseline_end}) is outside the time range ({time_data[0]}, {time_data[-1]}) of the measurement."
-        )
-    mask = (time_data >= baseline_start) & (time_data <= baseline_end)
-    if not np.any(mask):
-        raise ValueError("No data points in the specified baseline period.")
-    return np.nanmean(pupil_measurement.get_size()[mask])  # type: ignore
+    warnings.warn("This is a double implementation and will be deprecated.")
+    return calculate_baseline(pupil_measurement, duration)
 
 
 def transient_plr(pupil_measurement: PupilMeasurement) -> float:
@@ -415,6 +402,11 @@ def get_average_size(
     """
     time_data = pupil.get_time()
     size = pupil.get_size()
+    if min(time_data) > start_time:
+        warnings.warn("Start time is before the first data point.")
+    if max(time_data) < end_time:
+        warnings.warn("End time is after the last data point.")
+
     mask = (time_data >= start_time) & (time_data <= end_time)
     if not np.any(mask):
         raise ValueError("No data points in the specified time range.")
@@ -442,12 +434,12 @@ def calculate_baseline(pupil: PupilMeasurement, duration: float = 10) -> float:
     return get_average_size(pupil, start_time, end_time)
 
 
-def apply_baseline_correction(pupil: PupilMeasurement, baseline: float) -> None:
-    """Apply baseline correction to pupil size data.
+# def apply_baseline_correction(pupil: PupilMeasurement, baseline: float) -> None:
+#     """Apply baseline correction to pupil size data.
 
-    Args:
-        pupil (PupilMeasurement): The pupil measurement object to correct
-        baseline (float): Baseline value for normalization
-    """
-    size_relative = pupil.get_size() / baseline
-    pupil.set_time_and_size(pupil.get_time(), size_relative)
+#     Args:
+#         pupil (PupilMeasurement): The pupil measurement object to correct
+#         baseline (float): Baseline value for normalization
+#     """
+#     size_relative = pupil.get_size() / baseline
+#     pupil.set_time_and_size(pupil.get_time(), size_relative)
