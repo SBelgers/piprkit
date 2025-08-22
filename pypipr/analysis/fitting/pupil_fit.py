@@ -1,13 +1,13 @@
 import numpy as np
 
-from ...core.pupil_measurement import PupilBase
+from ...core.pupil_measurement import PupilBase, PupilMeasurement
 from ...utils.light_stimuli import LightStimulus
 from .phase_fits import FitBaseline, FitConstrict, FitRedilation, FitSustain
 
 # TODO Update to new formulas.
 
 
-class PupilFit(PupilBase):
+class PupilFit(PupilMeasurement):
     """Fit a model to the pupil measurement data."""
 
     def __init__(self, pupil_measurement: PupilBase) -> None:
