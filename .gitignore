@@ -3,3 +3,4 @@ venv.nosync/
 __pycache__/
 *.egg-info/
 .vscode/
+docs/build/html/
