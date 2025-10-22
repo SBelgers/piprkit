@@ -5,6 +5,8 @@
 
 import os
 import sys
+import shutil
+from pathlib import Path
 
 # Add the project root to the path
 sys.path.insert(0, os.path.abspath('../../'))
@@ -160,3 +162,41 @@ texinfo_documents = [
 ]
 
 # -- Extension configuration -------------------------------------------------
+ 
+
+def setup(app):
+    """Sphinx setup hook.
+
+    Before building the docs, copy the package examples from the project into
+    the documentation source directory so they are available under
+    ``docs/source/_autoexamples``. This mirrors the behaviour requested by the
+    project: move everything from ``pypipr/examples`` to
+    ``docs/source/_autoexamples``.
+
+    The copy is performed each build: the destination directory is removed if
+    present and replaced with a fresh copy. This keeps the docs tree in sync
+    with the package examples.
+    """
+    # paths relative to this conf.py
+    docs_source = Path(__file__).resolve().parent
+    project_root = docs_source.parents[1]
+
+    src_examples = project_root / 'pypipr' / 'examples'
+    dst_examples = docs_source / '_autoexamples'
+
+    if src_examples.exists() and src_examples.is_dir():
+        # Remove existing destination to ensure a clean copy
+        if dst_examples.exists():
+            try:
+                shutil.rmtree(dst_examples)
+            except Exception:
+                # best-effort: ignore errors to avoid blocking the build
+                pass
+
+        try:
+            shutil.copytree(src_examples, dst_examples)
+        except Exception:
+            # If the copy fails, don't break the whole build — Sphinx will still
+            # include whatever content is present in the docs source.
+            pass
+
