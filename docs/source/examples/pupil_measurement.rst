@@ -9,6 +9,8 @@ This section contains comprehensive examples for working with individual pupil m
    :glob:
 
    ../../examples/pupil_measurement/*.ipynb
+   
+   ../../01_pupil_simulation.ipynb
 
 Overview
 --------
