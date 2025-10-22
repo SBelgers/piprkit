@@ -25,15 +25,14 @@ version = __version__
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.autosummary',
-    'sphinx.ext.napoleon',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.mathjax',
-    'myst_parser',
-    'nbsphinx',
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.githubpages",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.mathjax",
+    "myst_nb",
 ]
 
 # Napoleon settings for Google/NumPy style docstrings
@@ -80,17 +79,18 @@ myst_enable_extensions = [
     "dollarmath",
     "html_admonition",
     "html_image",
-    "linkify",
     "replacements",
     "smartquotes",
     "substitution",
     "tasklist",
 ]
 
-# NBSphinx settings
-nbsphinx_execute = 'never'  # Don't execute notebooks during build
-nbsphinx_allow_errors = True
-nbsphinx_timeout = 60
+# MyST-NB (myst_nb) notebook execution settings
+# Set notebook execution to 'off' to avoid running notebooks during documentation builds.
+# See myst-nb docs for available options: execution_mode can be 'off', 'auto', 'force', 'cache', 'inline'.
+nb_execution_mode = 'off'  # don't execute notebooks during build
+nb_execution_allow_errors = True
+nb_execution_timeout = 60
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
