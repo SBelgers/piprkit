@@ -6,19 +6,9 @@ This section contains comprehensive examples for working with individual pupil m
 .. toctree::
    :maxdepth: 1
    :caption: Pupil Measurement Tutorials:
+   :glob:
 
-   ../../examples/pupil_measurement/01_pupil_simulation.ipynb
-   ../../examples/pupil_measurement/02_data_loading.ipynb
-   ../../examples/pupil_measurement/03_visualization.ipynb
-   ../../examples/pupil_measurement/04_preprocessing_filtering.ipynb
-   ../../examples/pupil_measurement/05_baseline_correction.ipynb
-   ../../examples/pupil_measurement/06_blink_detection.ipynb
-   ../../examples/pupil_measurement/07_pupil_metrics.ipynb
-   ../../examples/pupil_measurement/08_comprehensive_fitting.ipynb
-   ../../examples/pupil_measurement/09_custom_analysis.ipynb
-   ../../examples/pupil_measurement/10_blue_vs_red_light.ipynb
-   ../../examples/pupil_measurement/11_quality_control.ipynb
-   ../../examples/pupil_measurement/12_export_results.ipynb
+   ../../examples/pupil_measurement/*.ipynb
 
 Overview
 --------
