@@ -81,19 +81,6 @@ Main Classes and Functions
    pypipr.simulate_pupil_measurement
    pypipr.check_time_series
 
-Modules
--------
-
-.. autosummary::
-   :toctree: _autosummary
-   :recursive:
-   
-   pypipr.core
-   pypipr.analysis
-   pypipr.preprocessing
-   pypipr.data
-   pypipr.utils
-
 Examples and Tutorials
 ======================
 

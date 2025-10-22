@@ -4,3 +4,4 @@ __pycache__/
 *.egg-info/
 .vscode/
 docs/build/html/
+docs/source/_autosummary
