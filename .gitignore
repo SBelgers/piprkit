@@ -5,4 +5,4 @@ __pycache__/
 .vscode/
 docs/build/
 docs/source/_autosummary
-docs/source/jupyter_execute/
+docs/jupyter_execute
