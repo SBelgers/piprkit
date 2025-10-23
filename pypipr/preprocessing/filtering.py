@@ -136,4 +136,5 @@ def limit_rate_of_change(
     combined_mask = roc_mask & time_mask
     size = pupil.get_size().copy()
     size[~combined_mask] = np.nan
+    size[~time_mask] = pupil.get_size()[~time_mask]
     pupil.set_time_and_size(time_data, size)
