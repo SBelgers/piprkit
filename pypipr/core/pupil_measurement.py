@@ -18,7 +18,7 @@ class PupilMeasurement(PupilBase):
     # INITIALIZATION AND CORE DATA METHODS
     # ============================================================================
 
-    def __init__(self, time_data: NDArray[np.number], size: NDArray[np.number]) -> None:
+    def __init__(self, time_data: NDArray[np.number], size_data: NDArray[np.number]) -> None:
         """Initialize PupilMeasurement with time and size data.
 
         Args:
@@ -28,9 +28,9 @@ class PupilMeasurement(PupilBase):
         Raises:
             ValueError: If the time and size arrays do not have the same length.
         """
-        if len(size) != len(time_data):
+        if len(size_data) != len(time_data):
             raise ValueError("Size and time_data must have the same length")
-        self.set_time_and_size(time_data, size)
+        self.set_time_and_size(time_data, size_data)
 
     # ============================================================================
     # BASIC DATA MANIPULATION
@@ -220,3 +220,13 @@ class PupilMeasurement(PupilBase):
         if not hasattr(self, "blink_list"):
             raise ValueError("Blink list not set.")
         return self.blink_list
+
+    def remove_blinks(self) -> None:
+        """Remove blinks from the pupil size data by setting them to NaN."""
+        blink_list = self.get_blinks()
+        size = self.get_size()
+        time_data = self.get_time()
+        for blink_start, blink_end in blink_list:
+            mask = (time_data >= blink_start) & (time_data <= blink_end)
+            size[mask] = np.nan
+        self.set_time_and_size(time_data, size)
