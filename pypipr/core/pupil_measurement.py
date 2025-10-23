@@ -18,7 +18,9 @@ class PupilMeasurement(PupilBase):
     # INITIALIZATION AND CORE DATA METHODS
     # ============================================================================
 
-    def __init__(self, time_data: NDArray[np.number], size_data: NDArray[np.number]) -> None:
+    def __init__(
+        self, time_data: NDArray[np.number], size_data: NDArray[np.number]
+    ) -> None:
         """Initialize PupilMeasurement with time and size data.
 
         Args:
@@ -128,7 +130,7 @@ class PupilMeasurement(PupilBase):
         time_mask = (time_data >= start_time) & (time_data <= end_time)
         time_trimmed_size = size
         time_trimmed_size[time_mask] = trimmed_size[time_mask]
-        
+
         self.set_time_and_size(
             time_data,
             time_trimmed_size,
@@ -158,9 +160,21 @@ class PupilMeasurement(PupilBase):
         """Wrapper for get rate of change method. See `filtering.get_rate_of_change` for details."""
         return filtering.get_rate_of_change(self)
 
-    def limit_rate_of_change(self, max_rate_of_change: float, n_back: int=1) -> None:
+    def limit_rate_of_change(
+        self,
+        max_rate_of_change: float,
+        n_back: int = 1,
+        start_time: Optional[float] = None,
+        end_time: Optional[float] = None,
+    ) -> None:
         """Wrapper for limit rate of change method. See `filtering.limit_rate_of_change` for details."""
-        filtering.limit_rate_of_change(self, max_rate_of_change, n_back=n_back)
+        filtering.limit_rate_of_change(
+            self,
+            max_rate_of_change,
+            n_back=n_back,
+            start_time=start_time,
+            end_time=end_time,
+        )
 
     # ============================================================================
     # ANALYSIS METHODS (WRAPPER METHODS)
@@ -183,7 +197,6 @@ class PupilMeasurement(PupilBase):
         baseline = self.calculate_baseline(duration)
         size_relative = self.get_size() / baseline
         self.set_time_and_size(self.get_time(), size_relative)
-
 
     # ============================================================================
     # BLINK MANAGEMENT
