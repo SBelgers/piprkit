@@ -3,14 +3,7 @@ Pupil Measurement Examples
 
 This section contains comprehensive examples for working with individual pupil measurements.
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Pupil Measurement Tutorials:
-   :glob:
 
-   ../../examples/pupil_measurement/*.ipynb
-   
-   ../../01_pupil_simulation.ipynb
 
 Overview
 --------
@@ -30,3 +23,12 @@ Getting Started
 Start with the first notebook to understand the basic concepts, then progress through
 the examples based on your specific analysis needs. Each notebook builds upon
 concepts from previous examples while remaining self-contained.
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Pupil Measurement Tutorials:
+   :glob:
+
+   ../../examples/pupil_measurement/*.ipynb
+   
+   ../../01_pupil_simulation.ipynb
