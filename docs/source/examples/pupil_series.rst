@@ -8,7 +8,6 @@ This section contains examples for working with time series of pupil measurement
    :caption: Pupil Series Tutorials:
    :glob:
 
-   ../../examples/pupil_series/*.ipynb
 
 Overview
 --------

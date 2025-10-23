@@ -8,27 +8,35 @@ This section contains comprehensive examples for working with individual pupil m
 Overview
 --------
 
-The pupil measurement examples demonstrate:
-
-1. **Basic Setup**: Pupil simulation and data loading
-2. **Data Exploration**: Visualization techniques and data inspection
-3. **Preprocessing**: Filtering, baseline correction, and blink detection
-4. **Analysis**: Metric calculation and comprehensive fitting methods
-5. **Advanced Topics**: Custom analysis workflows and quality control
-6. **Applications**: Light color comparisons and result export
-
-Getting Started
----------------
-
 Start with the first notebook to understand the basic concepts, then progress through
 the examples based on your specific analysis needs. Each notebook builds upon
 concepts from previous examples while remaining self-contained.
 
+
 .. toctree::
    :maxdepth: 1
-   :caption: Pupil Measurement Tutorials:
+   :caption: Basic Usage:
    :glob:
 
-   ../../examples/pupil_measurement/*.ipynb
-   
-   ../../01_pupil_simulation.ipynb
+   example_ipynb/pupil_measurement/01_pupil_simulation.ipynb
+   example_ipynb/pupil_measurement/02_data_loading.ipynb
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Preprocessing:
+   :glob:
+
+   example_ipynb/pupil_measurement/04_preprocessing_filtering.ipynb
+   example_ipynb/pupil_measurement/05_baseline_correction.ipynb
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Analysis:
+   :glob:
+
+   example_ipynb/pupil_measurement/07_pupil_metrics.ipynb
+   example_ipynb/pupil_measurement/08_comprehensive_fitting.ipynb
+   example_ipynb/pupil_measurement/09_blue_vs_red_light.ipynb
+
+
+

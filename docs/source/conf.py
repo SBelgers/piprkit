@@ -5,9 +5,7 @@
 
 import os
 import sys
-import shutil
-from pathlib import Path
-
+from typing import Any
 # Add the project root to the path
 sys.path.insert(0, os.path.abspath('../../'))
 
@@ -98,9 +96,10 @@ templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # Source file suffixes
-source_suffix = {
-    '.rst': None,
-    '.md': 'myst_parser',
+source_suffix: dict[str, Any] = {
+    ".rst": None,
+    ".ipynb": "myst-nb",
+    ".myst": "myst-nb",
 }
 
 # The master toctree document
@@ -115,7 +114,7 @@ html_static_path = ['_static']
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
-html_theme_options = {
+html_theme_options: dict[str, Any] = {
     'navigation_depth': 4,
     'collapse_navigation': False,
     'sticky_navigation': True,
