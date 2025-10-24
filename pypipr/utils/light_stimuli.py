@@ -88,8 +88,11 @@ class LightStimulus:
         if ax is None:
             _, ax = plt.subplots()  # type: ignore
         start_time, end_time = self.get_time()
-
-        ax.axvspan(start_time, end_time, alpha=0.3, color=self.get_color(), label='Light Stimulus')  # type: ignore
+        if 'label' in kwargs:
+            label = kwargs.pop('label', 'Light Stimulus')
+        else:
+            label = 'Light Stimulus'
+        ax.axvspan(start_time, end_time, alpha=0.3, color=self.get_color(), label=label)  # type: ignore
         ax.axvline(start_time, color='black', linestyle='--', alpha=0.7, label='_Light Onset')  # type: ignore
         ax.axvline(end_time, color='black', linestyle='--', alpha=0.7, label='_Light Offset')  # type: ignore
         if show:
