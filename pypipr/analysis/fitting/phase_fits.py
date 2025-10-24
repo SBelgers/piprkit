@@ -199,7 +199,6 @@ class FitSustain(BaseFit):
         """
         p0 = estimate
         self._fit_with_p0(p0, kwargs)
-        self._set_params(*([np.nan] * len(self.get_param_names())))
 
 
 class FitRedilation(BaseFit):
