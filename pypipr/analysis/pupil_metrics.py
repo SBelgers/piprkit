@@ -256,7 +256,7 @@ def pipr_xs(pupil_measurement: PupilMeasurement, start: float, end: float) -> fl
         raise ValueError("Light stimulus not set. Cannot calculate time to peak.")
 
     _, stimulus_end = stimulus.get_time()
-    pupil_measurement.trim_time(stimulus_end + start, stimulus_end + end)
+    # pupil_measurement.trim_time(stimulus_end + start, stimulus_end + end)
     return get_average_size(pupil_measurement, stimulus_end + start, stimulus_end + end)
 
 
