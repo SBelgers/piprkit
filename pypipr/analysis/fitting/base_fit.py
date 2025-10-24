@@ -5,7 +5,7 @@ from abc import abstractmethod
 from typing import Any, Optional, Sequence, Union, override
 
 import numpy as np
-from scipy.optimize import ( # type: ignore
+from scipy.optimize import (  # type: ignore
     curve_fit,  # type: ignore
     minimize,  # type: ignore
 )
@@ -137,9 +137,17 @@ class BaseFit(PupilBase):
     def get_size(self) -> np.ndarray:
         return self.predict(self.get_time())
 
+    def set_start_time(self, start_time: float) -> None:
+        """Set the start time of the phase."""
+        self.start_time = start_time
+
     def get_start_time(self) -> float:
         """Get the start time of the phase."""
         return self.start_time
+
+    def set_end_time(self, end_time: float) -> None:
+        """Set the end time of the phase."""
+        self.end_time = end_time
 
     def get_end_time(self) -> float:
         """Get the end time of the phase."""
