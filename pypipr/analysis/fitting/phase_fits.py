@@ -150,7 +150,7 @@ class FitConstrict(BaseFit):
         self._fit_with_p0(p0, kwargs)
         # TODO: There is an error here. For now, set the fit to np.nan.
         warnings.warn(
-            "There is an issue with the implementation of this fit. Defaulting to NaN."
+            "There is an issue with the implementation of the constriction phase. Defaulting to NaN."
         )
         self._set_params(*([np.nan] * len(self.get_param_names())))
 
@@ -199,6 +199,7 @@ class FitSustain(BaseFit):
         """
         p0 = estimate
         self._fit_with_p0(p0, kwargs)
+        self._set_params(*([np.nan] * len(self.get_param_names())))
 
 
 class FitRedilation(BaseFit):
