@@ -3,7 +3,7 @@ import numpy as np
 from ...core.pupil_measurement import PupilBase, PupilMeasurement
 from ...utils.light_stimuli import LightStimulus
 from .phase_fits import FitBaseline, FitConstrict, FitRedilation, FitSustain
-
+import warnings
 # TODO Update to new formulas.
 
 
@@ -69,9 +69,11 @@ class PupilFit(PupilMeasurement):
         self.baseline_fit.fit()
         self.constrict_fit.fit()
         self.sustain_fit.fit()
+        self.sustain_fit._set_params(*([np.nan] * len(self.sustain_fit.get_param_names())))
+        warnings.warn("Automatic sustain fit is not yet implemented. Defaulting to NaN.")
         self.redilation_fit.fit()
 
-    def _get_fits(self) -> tuple[FitBaseline, FitConstrict, FitSustain, FitRedilation]:
+    def get_fits(self) -> tuple[FitBaseline, FitConstrict, FitSustain, FitRedilation]:
         return (
             self.baseline_fit,
             self.constrict_fit,
@@ -88,7 +90,7 @@ class PupilFit(PupilMeasurement):
         Returns:
             np.ndarray: Predicted pupil sizes
         """
-        baseline_fit, constrict_fit, sustain_fit, redilation_fit = self._get_fits()
+        baseline_fit, constrict_fit, sustain_fit, redilation_fit = self.get_fits()
 
         size = np.full_like(time_data, np.nan, dtype=np.float64)
 
@@ -157,7 +159,7 @@ class PupilFit(PupilMeasurement):
         Returns:
             dict[str, dict[str, float]]: Dictionary with phase names as keys and parameter dictionaries as values
         """
-        baseline_fit, constrict_fit, sustain_fit, redilation_fit = self._get_fits()
+        baseline_fit, constrict_fit, sustain_fit, redilation_fit = self.get_fits()
         return {
             "baseline": dict(
                 zip(baseline_fit.get_param_names(), baseline_fit.get_params())
@@ -185,7 +187,7 @@ class PupilFit(PupilMeasurement):
         Returns:
             str: Formatted string
         """
-        baseline_fit, constrict_fit, sustain_fit, redilation_fit = self._get_fits()
+        baseline_fit, constrict_fit, sustain_fit, redilation_fit = self.get_fits()
         string = "Formula:\n"
         string += f"\tBaseline: {baseline_fit.get_formula_string()}\n"
         string += f"\tConstriction: {constrict_fit.get_formula_string()}\n"
