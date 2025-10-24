@@ -191,6 +191,7 @@ def time_to_peak(pupil_measurement: PupilMeasurement) -> float:
     size = pupil_measurement.get_size()
     time_data = pupil_measurement.get_time()
     peak_index = np.nanargmin(size)
+    warnings.warn("This does not correctly account for the pupil escape.")
     return float(time_data[peak_index] - stimulus_start)
 
 
