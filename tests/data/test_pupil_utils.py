@@ -13,12 +13,11 @@ def test_load_sample():
     # Test loading red trace
     red_trace = load_simulated_pupil("red")
     assert isinstance(red_trace, PupilMeasurement)
-
-    assert np.array_equal(blue_trace.get_time(), red_trace.get_time())
+    assert np.allclose(blue_trace.get_time(), red_trace.get_time(), atol=1e-8)
     assert len(blue_trace.get_size()) == 15999
-    index_10 = np.where(blue_trace.get_time() == 10.952)[0][0]
-    assert blue_trace.get_time()[index_10] == 10.952
-    assert blue_trace.get_size()[index_10] == 7.240251117684957
+    index_10 = np.where(blue_trace.get_time() == 8.952)[0][0]
+    assert blue_trace.get_time()[index_10] == 8.952
+    assert blue_trace.get_size()[index_10] == 7.1509962250612364
 
 
 

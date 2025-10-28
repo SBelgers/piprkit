@@ -1,8 +1,6 @@
 import numpy as np
 
 from pypipr.core.pupil_base import PupilBase
-import pytest
-
 
 class DummyPupil(PupilBase):
     def __init__(self):

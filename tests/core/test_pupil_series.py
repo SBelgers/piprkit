@@ -45,7 +45,7 @@ def test_pupil_series_split():
         assert isinstance(pm, pypipr.PupilMeasurement)
         np.testing.assert_array_equal(pm.get_time(), expected_times[i])
         np.testing.assert_array_equal(pm.get_size(), expected_sizes[i])
-        np.testing.assert_array_equal(pm.get_light_stimulus().get_time(), expected_light_stimuli_times[i])
+        np.testing.assert_array_equal(pm.get_light_stimulus().get_time(), expected_light_stimuli_times[i])  # type: ignore
 
 def test_pupil_series_plot_light_stimuli():
     time_data = np.array([0, 1, 2, 3, 4, 5, 6])
