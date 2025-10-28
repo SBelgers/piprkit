@@ -4,10 +4,6 @@ Pupil Measurement Examples
 This section contains comprehensive examples for working with individual pupil measurements.
 
 
-
-Overview
---------
-
 Start with the first notebook to understand the basic concepts, then progress through
 the examples based on your specific analysis needs. Each notebook builds upon
 concepts from previous examples while remaining self-contained.
