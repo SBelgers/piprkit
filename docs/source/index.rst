@@ -54,6 +54,7 @@ The package includes comprehensive Jupyter notebook examples
 
    
    examples/pupil_measurement
+   examples/pupil_fit
    examples/pupil_series
 
 Additional Information
