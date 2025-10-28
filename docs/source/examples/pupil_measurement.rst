@@ -36,7 +36,6 @@ concepts from previous examples while remaining self-contained.
 
    example_ipynb/pupil_measurement/07_pupil_metrics.ipynb
    example_ipynb/pupil_measurement/08_comprehensive_fitting.ipynb
-   example_ipynb/pupil_measurement/09_blue_vs_red_light.ipynb
 
 
 
