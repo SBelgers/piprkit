@@ -5,13 +5,11 @@ Signal filtering and preprocessing functions for pupil data.
 from __future__ import annotations
 
 import warnings
-from typing import TYPE_CHECKING, Callable, Optional
+from typing import Callable, Optional
 
 import numpy as np
 from numpy.typing import NDArray
-
-if TYPE_CHECKING:
-    from ..core.pupil_base import PupilBase
+from ..core.pupil_base import PupilBase
 
 class FilterMixin(PupilBase):
     def rolling_filter(
@@ -125,7 +123,7 @@ class FilterMixin(PupilBase):
         roc_mask = np.full_like(self.get_size(), True, dtype=bool)
 
         for i in range(1, n_back + 1):
-            rate_of_change = self.get_rate_of_change(self, n_back=i)
+            rate_of_change = self.get_rate_of_change(n_back=i)
             # If rate_of_change is nan or zero, do nothing (keep True in mask)
             iteration_roc_mask = np.where(
                 (np.isnan(rate_of_change) | np.isinf(rate_of_change)),
