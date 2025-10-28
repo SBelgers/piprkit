@@ -7,9 +7,11 @@ from numpy.typing import NDArray
 
 from ..utils.light_stimuli import LightStimuliSeries
 from .pupil_measurement import PupilMeasurement
+from .pupil_base import PupilBase
+from ..preprocessing.filtering import FilterMixin
 
 
-class PupilSeries(PupilMeasurement):
+class PupilSeries(FilterMixin, PupilBase):
     """
     A class representing a series of pupil measurements with multiple light stimuli.
 
@@ -24,9 +26,8 @@ class PupilSeries(PupilMeasurement):
     def __init__(
         self,
         time_data: NDArray[np.number],
-        size: NDArray[np.number],
+        size_data: NDArray[np.number],
         stimuli_list: list[tuple[float, float]],
-        name: Optional[str] = None,
     ) -> None:
         """Initialize PupilSeries with time, size, and light stimuli data.
 
@@ -35,7 +36,9 @@ class PupilSeries(PupilMeasurement):
             size (NDArray[np.number]): Array of size data.
             stimuli_list (list[tuple[float, float]]): List of (start, end) tuples for light stimuli.
         """
-        super().__init__(time_data, size)
+        if len(size_data) != len(time_data):
+            raise ValueError("Size and time_data must have the same length")
+        self.set_time_and_size(time_data, size_data)
         self.set_light_stimuli_from_list(stimuli_list)
 
     # ============================================================================

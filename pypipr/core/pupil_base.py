@@ -4,6 +4,7 @@ from abc import ABC
 from typing import Any, Optional, Self
 
 import numpy as np
+from numpy.typing import NDArray
 from matplotlib.axes import Axes
 
 from ..utils.light_stimuli import LightStimulus
@@ -208,3 +209,36 @@ class PupilBase(ABC):
         if light_stimulus is None:
             raise ValueError("Light stimulus not set.")
         return light_stimulus.plot(ax, show, **kwargs)
+
+    # ============================================================================
+    # BASIC DATA MANIPULATION
+    # ============================================================================
+
+    def set_time_offset(self, offset: float) -> None:
+        """Set a time offset for the measurement.
+        Can be used to shift the time data by a certain amount.
+
+        Args:
+            offset (float): The offset to add to the time data.
+        """
+        self.set_time_and_size(self.get_time() + offset, self.get_size())
+        light_stimulus = self.get_light_stimulus()
+        if light_stimulus is not None:
+            light_stimulus.set_time_offset(offset)
+
+    def interpolate(self, new_time: NDArray[np.number]) -> None:
+        """Interpolate pupil size data to a new time array using np.interp.
+
+        Args:
+            new_time (NDArray[np.number]): Array of new time points for interpolation.
+        """
+        time_data = self.get_time()
+        size = self.get_size()
+        new_size = np.interp(  # type: ignore
+            x=new_time,  # type: ignore
+            xp=time_data,
+            fp=size,
+            left=np.nan,
+            right=np.nan,
+        )
+        self.set_time_and_size(new_time, new_size)  # type: ignore
