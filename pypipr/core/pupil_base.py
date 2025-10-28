@@ -56,6 +56,77 @@ class PupilBase(ABC):
         return copy.deepcopy(self)
 
     # ============================================================================
+    # DATA CLEANING AND TRIMMING
+    # ============================================================================
+
+    def drop_nan(self) -> None:
+        """Remove NaN values from the time and size data."""
+        mask = ~np.isnan(self.get_size())
+        self.set_time_and_size(
+            self.get_time()[mask],
+            self.get_size()[mask],
+        )
+
+    def trim_size(
+        self,
+        min_size: float,
+        max_size: float,
+        *,
+        start_time: Optional[float] = None,
+        end_time: Optional[float] = None,
+        drop: bool = False,
+    ) -> None:
+        """Trim the size data to a specific range.
+
+        Args:
+            min_size (float): The minimum size of the interval to keep.
+            max_size (float): The maximum size of the interval to keep.
+            drop (bool, optional): Whether to drop NaN values after trimming. Defaults to False.
+            start_time (float, optional): The start time of the interval to keep. Defaults to None.
+            end_time (float, optional): The end time of the interval to keep. Defaults to None.
+        """
+
+        size = self.get_size()
+        size_mask = (size >= min_size) & (size <= max_size)
+        trimmed_size = np.full_like(size, np.nan, dtype=np.float64)
+        trimmed_size[size_mask] = size[size_mask]
+
+        time_data = self.get_time()
+        if start_time is None:
+            start_time = -np.inf
+        if end_time is None:
+            end_time = np.inf
+        time_mask = (time_data >= start_time) & (time_data <= end_time)
+        time_trimmed_size = size
+        time_trimmed_size[time_mask] = trimmed_size[time_mask]
+
+        self.set_time_and_size(
+            time_data,
+            time_trimmed_size,
+        )
+        if drop:
+            self.drop_nan()
+
+    def trim_time(self, start: float, end: float, drop: bool = True) -> None:
+        """Trim the time and size data to a specific interval.
+
+        Args:
+            start (float): The start time of the interval to keep.
+            end (float): The end time of the interval to keep.
+            drop (bool, optional): Whether to drop NaN values after trimming. Defaults to True.
+        """
+        time_data = self.get_time()
+        mask = (time_data >= start) & (time_data <= end)
+        new_size = np.full_like(self.get_size(), np.nan, dtype=np.float64)
+        new_size[mask] = self.get_size()[mask]
+        self.set_time_and_size(
+            time_data,
+            new_size,
+        )
+        if drop:
+            self.drop_nan()
+
+    # ============================================================================
     # VISUALIZATION METHODS
     # ============================================================================
 
@@ -80,9 +151,9 @@ class PupilBase(ABC):
             ax.set_ylabel("Pupil Diameter")  # type: ignore
         kwargs.pop("scatter", None)
         kwargs.pop("show", None)
-        kwargs.pop('ax', None)
+        kwargs.pop("ax", None)
         if scatter:
-            ax.scatter(self.get_time(), self.get_size(), **kwargs) # type: ignore
+            ax.scatter(self.get_time(), self.get_size(), **kwargs)  # type: ignore
         else:
             ax.plot(self.get_time(), self.get_size(), **kwargs)  # type: ignore
         ax.set_xlabel("Time (s)")  # type: ignore
