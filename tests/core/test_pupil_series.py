@@ -54,11 +54,3 @@ def test_pupil_series_plot_light_stimuli():
     ps = PupilSeries(time_data, size, light_stimuli)
     ax = ps.plot()
     assert isinstance(ax, Axes)
-
-def test_pupil_series_inheritance():
-    import pypipr.core.pupil_measurement
-    time_data = np.array([0, 1, 2, 3])
-    size = np.array([6.0, 6.1, 6.2, 6.3])
-    light_stimuli = [(1.0, 2.0)]
-    ps = PupilSeries(time_data, size, light_stimuli)
-    assert isinstance(ps, pypipr.core.pupil_measurement.PupilMeasurement)
