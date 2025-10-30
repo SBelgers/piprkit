@@ -38,9 +38,8 @@ Installation
 
 .. code-block:: bash
 
-   git clone https://github.com/SBelgers/pypipr_package.git
-   cd pypipr_package
-   pip install -e .
+   pip install git+https://github.com/SBelgers/pypipr_package.git
+
 
 Examples and Tutorials
 ======================
@@ -57,26 +56,9 @@ The package includes comprehensive Jupyter notebook examples
    examples/pupil_fit
    examples/pupil_series
 
-Additional Information
-======================
-
-The package includes comprehensive Jupyter notebook examples
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Additional Information:
-   
-   index
-   contributing
-   changelog
-   license
-
 
 API Reference
 =============
-
-Main Classes and Functions
---------------------------
 
 .. autosummary::
    :toctree: _autosummary
@@ -86,12 +68,17 @@ Main Classes and Functions
    pypipr.PupilMeasurement
    pypipr.PupilSeries
    pypipr.PupilFit
-   pypipr.LightStimulus
-   pypipr.LightStimuliSeries
-   pypipr.load_simulated_pupil
-   pypipr.load_real_series
-   pypipr.simulate_pupil_measurement
-   pypipr.check_time_series
+
+Additional Information
+======================
+
+The package includes comprehensive Jupyter notebook examples
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Additional Information:
+   
+   license
 
 .. note::
    This documentation is automatically generated from the source code.

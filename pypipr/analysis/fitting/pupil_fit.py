@@ -6,10 +6,60 @@ from .phase_fits import FitBaseline, FitConstrict, FitRedilation, FitSustain
 import warnings
 # TODO Update to new formulas.
 
-
 class PupilFit(PupilMeasurement):
-    """Fit a model to the pupil measurement data."""
+    """Fit a model to the pupil measurement data.
 
+    Phases
+    ------
+
+    1. BASELINE (y = y0)
+        - Description: Flat linear model fit to 10s prestimulus period.
+        - Defined from:
+            - Start Time: -infinity
+            - End Time: light stimuli onset
+        - Variables:
+            - y0: Baseline pupil diameter (mean before stimulus)
+    2. PLR LATENCY PERIOD (y = undefined)
+        - Description: Undefined period after light onset and before constriction.
+        - Defined from:
+            - Start Time: light onset
+            - End Time: light onset + PLR latency
+    3. CONSTRICT (y = cv * (x + t_constrict) + y0)
+        - Description: Linear model from light onset to max constriction.
+        - Defined from:
+            - Start: light onset + PLR latency
+            - End: time of maximum constriction
+        - Variables:
+            - x: Time since light onset
+            - t_constrict: Time shift to light onset + PLR latency
+            - cv: Constriction velocity
+            - y0: Baseline pupil diameter
+    4. SUSTAINED (y = m * (x + t_sustained) + c)
+        - Description: Linear model from max constriction to light offset.
+        - Defined from:
+            - Start: time of maximum constriction
+            - End: light offset
+        - Variables:
+            - x: Time since max constriction
+            - t_sustained: Time shift to max constriction
+            - m: Slope of sustained constriction
+            - c: Diameter at max constriction
+    5. REDILATION (y = S * exp(k * (x + t_redilation) + P)
+        - Description: Exponential model for redilation after light offset.
+        - Defined from:
+            - Start: light offset
+            - End: + infinity
+        - Variables:
+            - x: Time since light offset
+            - t_redilation: Time shift to light offset
+            - S: Scaling constant
+            - k: Redilation velocity
+            - P: Plateau pupil diameter
+
+    Notes
+    -----
+    - All time values (x) are in seconds.
+    """
     def __init__(self, pupil_measurement: PupilBase) -> None:
         """Initialize the PupilFit class.
 

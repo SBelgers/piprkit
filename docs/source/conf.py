@@ -57,6 +57,7 @@ autodoc_default_options = { # type:ignore
     'member-order': 'bysource',
     'special-members': '__init__',
     'undoc-members': True,
+    'inherited-members': True,
     'exclude-members': '__weakref__'
 }
 

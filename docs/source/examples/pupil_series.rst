@@ -18,3 +18,11 @@ concepts from previous examples while remaining self-contained.
    example_ipynb/pupil_series/02_series_exploration.ipynb
    example_ipynb/pupil_series/03_series_splitting.ipynb
    example_ipynb/pupil_series/04_series_fitting.ipynb
+
+
+.. seealso::
+
+   :doc:`PupilSeries API <../_autosummary/pypipr.PupilSeries>`
+
+
+

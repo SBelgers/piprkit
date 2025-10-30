@@ -23,3 +23,9 @@ concepts from previous examples while remaining self-contained.
 
 
 
+.. seealso::
+
+   :doc:`PupilFit API <../_autosummary/pypipr.PupilFit>`
+
+
+

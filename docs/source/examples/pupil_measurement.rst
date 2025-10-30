@@ -33,4 +33,10 @@ concepts from previous examples while remaining self-contained.
    example_ipynb/pupil_measurement/07_pupil_metrics.ipynb
 
 
+.. seealso::
+
+   :doc:`PupilMeasurement API <../_autosummary/pypipr.PupilMeasurement>`
+
+
+
 

@@ -80,6 +80,7 @@ class BaseFit(PupilBase):
 
     This class provides common functionality for all phase-specific fits,
     including parameter fitting, prediction, and scoring.
+
     """
 
     # ============================================================================
