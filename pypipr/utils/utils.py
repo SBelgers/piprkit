@@ -13,4 +13,6 @@ def check_time_series(time_data: NDArray[np.number]) -> None:
         raise ValueError("Time array is not sorted in ascending order.")
     if np.any(np.diff(time_data) == 0):
         raise ValueError("Time array contains duplicate values.")
+    
+    return None
 
