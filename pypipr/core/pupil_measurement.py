@@ -5,9 +5,10 @@ import warnings
 import numpy as np
 from numpy.typing import NDArray
 
-from .pupil_base import PupilBase
-from ..preprocessing.filtering import FilterMixin
 from ..analysis.pupil_metrics import PupilMetricsMixin
+from ..preprocessing.filtering import FilterMixin
+from .pupil_base import PupilBase
+
 
 class PupilMeasurement(PupilMetricsMixin, FilterMixin, PupilBase):
     """A class representing a single pupil measurement with time series data."""
@@ -31,11 +32,6 @@ class PupilMeasurement(PupilMetricsMixin, FilterMixin, PupilBase):
         if len(size_data) != len(time_data):
             raise ValueError("Size and time_data must have the same length")
         self.set_time_and_size(time_data, size_data)
-
-
-
-
-
 
     # ============================================================================
     # BLINK MANAGEMENT

@@ -5,10 +5,10 @@ import numpy as np
 from matplotlib.axes import Axes
 from numpy.typing import NDArray
 
-from ..utils.light_stimuli import LightStimuliSeries
-from .pupil_measurement import PupilMeasurement
-from .pupil_base import PupilBase
 from ..preprocessing.filtering import FilterMixin
+from ..utils.light_stimuli import LightStimuliSeries
+from .pupil_base import PupilBase
+from .pupil_measurement import PupilMeasurement
 
 
 class PupilSeries(FilterMixin, PupilBase):
