@@ -24,6 +24,10 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=requirements,
-    package_data={"": ["examples/*.ipynb"], "pypipr": ["data/*"]},
+    # include CSV and other data files under pypipr/data, including nested example dirs
+    package_data={
+        "": ["examples/*.ipynb"],
+        "pypipr": ["data/*", "data/examples/*", "data/examples/*/*"],
+    },
     python_requires=">=3.12",
 )
