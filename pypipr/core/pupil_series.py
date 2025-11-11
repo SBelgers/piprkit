@@ -9,9 +9,9 @@ from ..preprocessing.filtering import FilterMixin
 from ..utils.light_stimuli import LightStimuliSeries
 from .pupil_base import PupilBase
 from .pupil_measurement import PupilMeasurement
+from ..preprocessing.blinks import BlinkMixin
 
-
-class PupilSeries(FilterMixin, PupilBase):
+class PupilSeries(FilterMixin, BlinkMixin, PupilBase):
     """
     A class representing a series of pupil measurements with multiple light stimuli.
 
