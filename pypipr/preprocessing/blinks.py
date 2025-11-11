@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import warnings
 
+import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.axes import Axes
 
 from ..core.pupil_base import PupilBase
 
@@ -49,3 +51,31 @@ class BlinkMixin(PupilBase):
             mask = (time_data >= blink_start) & (time_data <= blink_end)
             size[mask] = np.nan
         self.set_time_and_size(time_data, size)
+
+    def plot_blinks(
+        self,
+        ax: Optional[Axes] = None,
+        show: bool = False,
+        **kwargs: Any,
+    ) -> Axes:
+        """Plot all blinks.
+
+        Args:
+            ax (Optional[Axes], optional): Axes to plot on. Defaults to None.
+            show (bool, optional): Whether to show the plot. Defaults to False.
+
+        Returns:
+            Axes: The axes with the plotted light stimuli.
+        """
+        blinks = self.get_blinks()
+        if "color" not in kwargs:
+            kwargs["color"] = "red"
+        if "alpha" not in kwargs:
+            kwargs["alpha"] = 0.3
+        if ax is None:
+            fig, ax = plt.subplots()
+        for blink_start, blink_end in blinks:
+            ax.axvspan(blink_start, blink_end, **kwargs)
+        if show:
+            plt.show()
+        return ax
