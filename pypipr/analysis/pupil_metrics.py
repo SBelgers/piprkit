@@ -409,7 +409,8 @@ class PupilMetricsMixin(PupilBase):
 
         mask = (time_data >= start_time) & (time_data <= end_time)
         if not np.any(mask):
-            raise ValueError("No data points in the specified time range.")
+            warnings.warn("No data points in the specified time range.")
+            return np.nan
         return np.nanmean(size[mask])  # type: ignore
 
 
