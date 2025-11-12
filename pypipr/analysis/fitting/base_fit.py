@@ -192,12 +192,12 @@ class BaseFit(PupilBase):
         p0: Union[None, tuple[float, ...]],
         kwargs: Optional[dict[str, Any]] = None,
     ) -> None:
-        if self.get_size().shape[0] < 3:
+        if self.get_time().shape[0] < 3:
             warnings.warn(
                 "Not enough data points to perform fit. Need at least 3 data points."
             )
             self._set_params(*([np.nan] * len(self.get_param_names())))  # type: ignore
-            return    
+            return
         if p0 is not None:
             if kwargs is None:
                 kwargs = {"p0": p0}
