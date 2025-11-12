@@ -192,6 +192,12 @@ class BaseFit(PupilBase):
         p0: Union[None, tuple[float, ...]],
         kwargs: Optional[dict[str, Any]] = None,
     ) -> None:
+        if self.get_size().shape[0] < 3:
+            warnings.warn(
+                "Not enough data points to perform fit. Need at least 3 data points."
+            )
+            self._set_params(*([np.nan] * len(self.get_param_names())))  # type: ignore
+            return    
         if p0 is not None:
             if kwargs is None:
                 kwargs = {"p0": p0}
@@ -204,7 +210,7 @@ class BaseFit(PupilBase):
 
         try:
             time_offset = self.get_time() + self.get_time_offset()
-            popt, _ = curve_fit(self._model_function, time_offset, self.size, **kwargs)  # type: ignore
+            popt, _ = curve_fit(self._model_function, time_offset, self.get_size(), **kwargs)  # type: ignore
             self._set_params(*popt)  # type: ignore
         except RuntimeError as e:
             warnings.warn(f"Fit failed: {e}")
