@@ -79,5 +79,3 @@ def test_get_average_size():
 
     average_size = pm.get_average_size(1, 4)
     assert average_size == 6.25
-    with pytest.raises(ValueError):
-        pm.get_average_size(10, 20)

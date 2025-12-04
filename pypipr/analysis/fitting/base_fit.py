@@ -90,7 +90,7 @@ class BaseFit(PupilBase):
     def __init__(
         self,
         time_data: np.ndarray,
-        size: np.ndarray,
+        size_data: np.ndarray,
         start_time: Optional[float] = None,
         end_time: Optional[float] = None,
     ) -> None:
@@ -117,14 +117,15 @@ class BaseFit(PupilBase):
             raise NotImplementedError("Automatic phase detection not implemented yet.")
         self.start_time = start_time
         self.end_time = end_time
-        if len(time_data) != len(size):
+        if len(time_data) != len(size_data):
             raise ValueError("time and size must have the same length")
         time_data = np.asarray(time_data, dtype=np.float64)
-        size = np.asarray(size, dtype=np.float64)
+        size_data = np.asarray(size_data, dtype=np.float64)
         mask = (time_data >= start_time) & (time_data <= end_time)
         self.time_data = time_data[mask]
-        self.size = size[mask]
+        self.size_data = size_data[mask]
         self.set_time_offset(self.start_time)
+        self._set_params(*([np.nan] * len(self.get_param_names())))
 
     # ============================================================================
     # CORE DATA ACCESS METHODS
@@ -135,8 +136,12 @@ class BaseFit(PupilBase):
         return self.time_data
 
     @override
-    def get_size(self) -> np.ndarray:
-        return self.predict(self.get_time())
+    def get_size(self, predict: bool = True) -> np.ndarray:
+        if predict:
+            return self.predict(self.get_time())
+        return self.size_data
+    
+    # ============================================================================ 
 
     def set_start_time(self, start_time: float) -> None:
         """Set the start time of the phase."""
@@ -192,7 +197,7 @@ class BaseFit(PupilBase):
         p0: Union[None, tuple[float, ...]],
         kwargs: Optional[dict[str, Any]] = None,
     ) -> None:
-        if self.get_time().shape[0] < 3:
+        if (self.get_time().shape[0] < 3) or (self.get_size().shape[0] < 3):
             warnings.warn(
                 "Not enough data points to perform fit. Need at least 3 data points."
             )
@@ -210,7 +215,7 @@ class BaseFit(PupilBase):
 
         try:
             time_offset = self.get_time() + self.get_time_offset()
-            popt, _ = curve_fit(self._model_function, time_offset, self.get_size(), **kwargs)  # type: ignore
+            popt, _ = curve_fit(self._model_function, time_offset, self.get_size(predict=False), **kwargs)  # type: ignore
             self._set_params(*popt)  # type: ignore
         except RuntimeError as e:
             warnings.warn(f"Fit failed: {e}")
@@ -237,7 +242,7 @@ class BaseFit(PupilBase):
         if method not in options:
             raise ValueError(f"Unknown method: {method}")
         if method == "MAE":
-            return np.nanmean(np.abs(self.size - self.predict(self.get_time()))).astype(
+            return np.nanmean(np.abs(self.size_data - self.predict(self.get_time()))).astype(
                 float
             )  # type: ignore
         return np.nan
