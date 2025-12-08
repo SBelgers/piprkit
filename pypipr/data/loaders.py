@@ -116,18 +116,18 @@ def simulate_pupil_measurement(
 
     baseline_t = time_data[time_data < t_light_onset]
     baseline_t_start_at_0 = baseline_t - min(baseline_t)
-    baseline_size = FitBaseline._model_function(
+    baseline_size = FitBaseline.get_model_function()(
         baseline_t_start_at_0, baseline_param_y0
     )
     latency_t = time_data[(time_data >= t_light_onset) & (time_data < t_plr_latency)]
     latency_t_start_at_0 = latency_t - min(latency_t)
-    latency_size = FitLatency._model_function(latency_t_start_at_0)
+    latency_size = FitLatency.get_model_function()(latency_t_start_at_0)
 
     constrict_t = time_data[
         (time_data >= t_plr_latency) & (time_data < t_peak_constrict)
     ]
     constrict_t_start_at_0 = constrict_t - min(constrict_t)
-    constrict_size = FitConstrict._model_function(
+    constrict_size = FitConstrict.get_model_function()(
         constrict_t_start_at_0, constrict_param_cv, baseline_param_y0
     )
 
@@ -135,13 +135,13 @@ def simulate_pupil_measurement(
         (time_data >= t_peak_constrict) & (time_data < t_light_offset)
     ]
     sustain_t_start_at_0 = sustain_t - min(sustain_t)
-    sustain_size = FitSustain._model_function(
+    sustain_size = FitSustain.get_model_function()(
         sustain_t_start_at_0, sustained_param_m, sustained_param_c
     )
 
     redilation_t = time_data[time_data >= t_light_offset]
     redilation_t_start_at_0 = redilation_t - min(redilation_t)
-    redilation_size = FitRedilation._model_function(
+    redilation_size = FitRedilation.get_model_function()(
         redilation_t_start_at_0,
         redilation_param_s,
         redilation_param_k,

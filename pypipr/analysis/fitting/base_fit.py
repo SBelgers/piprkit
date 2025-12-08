@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import warnings
 from abc import abstractmethod
-from typing import Any, Optional, Sequence, Union, override
+from typing import Any, Optional, Sequence, Union, override, Callable
 
 import numpy as np
 from scipy.optimize import (  # type: ignore
@@ -164,6 +164,7 @@ class BaseFit(PupilBase):
     # ============================================================================
 
     def get_params(self) -> tuple[float, ...]:
+        """Get the fitted parameters of the model."""
         return self._params
 
     def _set_params(self, *params: float) -> None:
@@ -215,7 +216,7 @@ class BaseFit(PupilBase):
 
         try:
             time_offset = self.get_time() + self.get_time_offset()
-            popt, _ = curve_fit(self._model_function, time_offset, self.get_size(predict=False), **kwargs)  # type: ignore
+            popt, _ = curve_fit(self.get_model_function(), time_offset, self.get_size(predict=False), **kwargs)  # type: ignore
             self._set_params(*popt)  # type: ignore
         except RuntimeError as e:
             warnings.warn(f"Fit failed: {e}")
@@ -235,9 +236,22 @@ class BaseFit(PupilBase):
             np.ndarray: Predicted pupil sizes
         """
         time_offset = time_data + self.get_time_offset()
-        return self._model_function(time_offset, *self.get_params())
+        return self.get_model_function()(time_offset, *self.get_params())
 
     def goodness_of_fit(self, method: str = "MAE") -> float:
+        """Calculate the goodness of fit for the model.
+
+        Args:
+            method (str, optional): The method to use for calculating goodness of fit. Defaults to "MAE".
+            Options:
+                - "MAE": Mean Absolute Error
+
+        Raises:
+            ValueError: Raised if an unknown method is provided.
+
+        Returns:
+            float: The goodness of fit value
+        """        
         options = ["MAE"]
         if method not in options:
             raise ValueError(f"Unknown method: {method}")
@@ -247,6 +261,15 @@ class BaseFit(PupilBase):
             )  # type: ignore
         return np.nan
 
+    def get_model_function(self) -> Callable[..., np.ndarray]:
+        """Get the model function used for fitting and prediction.
+
+        Returns:
+            Callable[..., np.ndarray]: The model function. Takes time data and parameters as input and returns predicted sizes.
+                
+        """
+        return self._model_function
+    
     # ============================================================================
     # ABSTRACT METHODS (TO BE IMPLEMENTED BY SUBCLASSES)
     # ============================================================================
