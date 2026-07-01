@@ -267,14 +267,15 @@ class BaseFit(PupilBase):
             ).astype(float)  # type: ignore
         return np.nan
 
-    def get_model_function(self) -> Callable[..., np.ndarray]:
+    @classmethod
+    def get_model_function(cls) -> Callable[..., np.ndarray]:
         """Get the model function used for fitting and prediction.
 
         Returns:
             Callable[..., np.ndarray]: The model function. Takes time data and parameters as input and returns predicted sizes.
 
         """
-        return self._model_function
+        return cls._model_function
 
     # ============================================================================
     # ABSTRACT METHODS (TO BE IMPLEMENTED BY SUBCLASSES)
