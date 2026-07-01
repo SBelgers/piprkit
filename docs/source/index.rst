@@ -38,7 +38,7 @@ Installation
 
 .. code-block:: bash
 
-   pip install git+https://github.com/SBelgers/pypipr_package.git
+   pip install git+https://github.com/SBelgers/piprkit_package.git
 
 
 Examples and Tutorials
@@ -65,9 +65,9 @@ API Reference
    :caption: Main Classes and Functions
    :recursive:
    
-   pypipr.PupilMeasurement
-   pypipr.PupilSeries
-   pypipr.PupilFit
+   piprkit.PupilMeasurement
+   piprkit.PupilSeries
+   piprkit.PupilFit
 
 Additional Information
 ======================

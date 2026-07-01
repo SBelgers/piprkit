@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from pypipr.core.pupil_measurement import PupilMeasurement
+from piprkit.core.pupil_measurement import PupilMeasurement
 
 
 def test_pupil_measurement_initialization():
@@ -131,9 +131,9 @@ def test_trim_size():
     )
 
 def test_pupil_measurement_inheritance():
-    import pypipr.core.pupil_base
+    import piprkit.core.pupil_base
 
     time_data = np.array([0, 1, 2, 3])
     size = np.array([6.0, 6.1, 6.2, 6.3])
     pm = PupilMeasurement(time_data, size)
-    assert isinstance(pm, pypipr.core.pupil_base.PupilBase)
+    assert isinstance(pm, piprkit.core.pupil_base.PupilBase)

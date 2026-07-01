@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import warnings
 from abc import abstractmethod
-from typing import Any, Optional, Sequence, Union, override, Callable
+from typing import Any, Callable, Optional, Sequence, Union, override
 
 import numpy as np
 from scipy.optimize import (  # type: ignore
     curve_fit,  # type: ignore
     minimize,  # type: ignore
+    OptimizeResult
 )
 
 from ...core.pupil_base import PupilBase
@@ -140,8 +141,8 @@ class BaseFit(PupilBase):
         if predict:
             return self.predict(self.get_time())
         return self.size_data
-    
-    # ============================================================================ 
+
+    # ============================================================================
 
     def set_start_time(self, start_time: float) -> None:
         """Set the start time of the phase."""
@@ -216,7 +217,12 @@ class BaseFit(PupilBase):
 
         try:
             time_offset = self.get_time() + self.get_time_offset()
-            popt, _ = curve_fit(self.get_model_function(), time_offset, self.get_size(predict=False), **kwargs)  # type: ignore
+            popt, _ = curve_fit(
+                self.get_model_function(),
+                time_offset,
+                self.get_size(predict=False),
+                **kwargs,
+            )  # type: ignore
             self._set_params(*popt)  # type: ignore
         except RuntimeError as e:
             warnings.warn(f"Fit failed: {e}")
@@ -251,14 +257,14 @@ class BaseFit(PupilBase):
 
         Returns:
             float: The goodness of fit value
-        """        
+        """
         options = ["MAE"]
         if method not in options:
             raise ValueError(f"Unknown method: {method}")
         if method == "MAE":
-            return np.nanmean(np.abs(self.size_data - self.predict(self.get_time()))).astype(
-                float
-            )  # type: ignore
+            return np.nanmean(
+                np.abs(self.size_data - self.predict(self.get_time()))
+            ).astype(float)  # type: ignore
         return np.nan
 
     def get_model_function(self) -> Callable[..., np.ndarray]:
@@ -266,10 +272,10 @@ class BaseFit(PupilBase):
 
         Returns:
             Callable[..., np.ndarray]: The model function. Takes time data and parameters as input and returns predicted sizes.
-                
+
         """
         return self._model_function
-    
+
     # ============================================================================
     # ABSTRACT METHODS (TO BE IMPLEMENTED BY SUBCLASSES)
     # ============================================================================
@@ -291,12 +297,13 @@ class BaseFit(PupilBase):
     def optimize_phase_boundary_and_params(
         self,
         time_data: np.ndarray,
-        size: np.ndarray,
+        size_data: np.ndarray,
         estimated_time: tuple[float, float],
         time_bounds: list[tuple[float, float]],
         estimated_fit_params: list[float],
         fit_param_bounds: list[tuple[float, float]],
-    ):
+    ) -> Any:
+        # TODO: Fix the return type hinting.
         """
         Optimize start/end times and fit parameters to minimize fit error.
 
@@ -316,7 +323,7 @@ class BaseFit(PupilBase):
             # create a new copy of self
             new_fit = type(self)(
                 time_data=time_data,
-                size=size,
+                size_data=size_data,
                 start_time=start_time,
                 end_time=end_time,
             )
@@ -325,5 +332,6 @@ class BaseFit(PupilBase):
 
         x0 = estimated_time
         bounds = time_bounds + fit_param_bounds
-        result = minimize(optimize_time_func, x0, bounds=bounds, method="L-BFGS-B")
+        
+        result: Any = minimize(optimize_time_func, x0, bounds=bounds, method="L-BFGS-B")
         return result

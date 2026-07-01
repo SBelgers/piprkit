@@ -1,4 +1,4 @@
-from pypipr.core.pupil_measurement import PupilMeasurement
+from piprkit.core.pupil_measurement import PupilMeasurement
 import pytest
 import numpy as np
 

@@ -2,9 +2,9 @@
 # ===================== General PupilFit Tests =====================
 def test_pupil_fit_from_measurement():
     import numpy as np
-    from pypipr.core.pupil_measurement import PupilMeasurement
-    from pypipr.utils.light_stimuli import LightStimulus
-    from pypipr.analysis.fitting.pupil_fit import PupilFit
+    from piprkit.core.pupil_measurement import PupilMeasurement
+    from piprkit.utils.light_stimuli import LightStimulus
+    from piprkit.analysis.fitting.pupil_fit import PupilFit
 
     # Create dummy time and size data
     time_data = np.linspace(0, 20, 100)

@@ -1,5 +1,5 @@
 """
-Data loading functions for example datasets included with pypipr.
+Data loading functions for example datasets included with piprkit.
 
 This module provides convenient functions to load example pupillometry datasets
 for testing, tutorials, and demonstrations.
@@ -36,11 +36,11 @@ def load_simulated_pupil(blue_or_red: str = "blue") -> PupilMeasurement:
     if blue_or_red not in ["blue", "red"]:
         raise ValueError("blue_or_red must be either 'blue' or 'red'")
     if blue_or_red == "blue":
-        data_path = files("pypipr.data.examples.simulated_measures").joinpath(
+        data_path = files("piprkit.data.examples.simulated_measures").joinpath(
             "simulated_trace_blue.csv"
         )
     else:
-        data_path = files("pypipr.data.examples.simulated_measures").joinpath(
+        data_path = files("piprkit.data.examples.simulated_measures").joinpath(
             "simulated_trace_red.csv"
         )
     raw_data = np.loadtxt(data_path, delimiter=",", skiprows=1, dtype=np.float64)  # type: ignore
@@ -60,9 +60,9 @@ def load_real_series() -> PupilSeries:
     PupilSeries
         A PupilSeries object with real pupillometry data containing multiple stimuli
     """
-    pupil_path = files("pypipr.data.examples.real_series").joinpath("pupil_trace.csv")
+    pupil_path = files("piprkit.data.examples.real_series").joinpath("pupil_trace.csv")
     raw_data = np.loadtxt(pupil_path, delimiter=",", skiprows=1, dtype=np.float64)  # type: ignore
-    stimuli_path = files("pypipr.data.examples.real_series").joinpath("stimuli.csv")
+    stimuli_path = files("piprkit.data.examples.real_series").joinpath("stimuli.csv")
     stimuli_data = np.loadtxt(stimuli_path, delimiter=",", skiprows=1, dtype=np.float64)  # type: ignore
     stimuli_data = stimuli_data[:, 1:3]  # type: ignore
     time_data = raw_data[:, 0]  # type: ignore

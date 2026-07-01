@@ -9,9 +9,13 @@ import numpy as np
 if TYPE_CHECKING:
     from ..core.pupil_measurement import PupilMeasurement
 
-from ..core.pupil_base import PupilBase
 """
+
+
 Metrics as described by Adhikari et al. (2015), table 2:
+| Shorthand Name     | Full Metric Name                    | Description                                                       | Unit             | Reference     |
+|--------------------|-------------------------------------|-------------------------------------------------------------------|------------------|---------------|
+| baseline           | Baseline Pupil Diameter             | Average over 10 s prestimulus period                              | mm               |               |
 
 
 | Shorthand Name     | Full Metric Name                    | Description                                                       | Unit             |
@@ -39,7 +43,20 @@ Metrics as described by Adhikari et al. (2015), table 2:
 
 """
 
-class PupilMetricsMixin(PupilBase):
+
+class PupilMetrics:
+    """Organised namespace for pupil metrics on a PupilMeasurement.
+
+    Access via ``measurement.metrics.<method>()``, e.g.::
+
+        pupMeas.metrics.baseline()
+        pupMeas.metrics.peak_constriction()
+        pupMeas.metrics.pipr_6s()
+    """
+
+    def __init__(self, measurement: "PupilMeasurement") -> None:
+        self._m = measurement
+
     def baseline(self, duration: float = 10) -> float:
         """
         Metrics as described by Adhikari et al. (2015), table 2:
@@ -152,13 +169,13 @@ class PupilMetricsMixin(PupilBase):
         warnings.warn(
             "The peak constriction function assumes the size is already relative to the baseline."
         )
-        self = self.copy()
-        stimulus = self.get_light_stimulus()
+        m = self._m.copy()
+        stimulus = m.get_light_stimulus()
         if stimulus is None:
             raise ValueError("Light stimulus not set. Cannot calculate peak constriction.")
         light_start, light_end = stimulus.get_time()
-        self.trim_time(light_start, light_end)
-        size = self.get_size()
+        m.trim_time(light_start, light_end)
+        size = m.get_size()
         minimum_size = np.nanmin(size)
         return float(minimum_size)
 
@@ -181,15 +198,15 @@ class PupilMetricsMixin(PupilBase):
         Returns:
             float: The time to peak pupil constriction.
         """
-        self = self.copy()
-        stimulus = self.get_light_stimulus()
+        m = self._m.copy()
+        stimulus = m.get_light_stimulus()
         if stimulus is None:
             raise ValueError("Light stimulus not set. Cannot calculate time to peak.")
 
         stimulus_start, stimulus_end = stimulus.get_time()
-        self.trim_time(stimulus_start, stimulus_end)
-        size = self.get_size()
-        time_data = self.get_time()
+        m.trim_time(stimulus_start, stimulus_end)
+        size = m.get_size()
+        time_data = m.get_time()
         peak_index = np.nanargmin(size)
         warnings.warn("This does not correctly account for the pupil escape.")
         return float(time_data[peak_index] - stimulus_start)
@@ -251,8 +268,8 @@ class PupilMetricsMixin(PupilBase):
         Returns:
             float: The x second PIPR amplitude.
         """
-        self = self.copy()
-        stimulus = self.get_light_stimulus()
+        m = self._m.copy()
+        stimulus = m.get_light_stimulus()
         if stimulus is None:
             raise ValueError("Light stimulus not set. Cannot calculate time to peak.")
 
@@ -400,8 +417,8 @@ class PupilMetricsMixin(PupilBase):
         Returns:
             float: Average pupil size in the specified time range
         """
-        time_data = self.get_time()
-        size = self.get_size()
+        time_data = self._m.get_time()
+        size = self._m.get_size()
         if min(time_data) > start_time:
             warnings.warn("Start time is before the first data point.")
         if max(time_data) < end_time:
@@ -427,7 +444,7 @@ class PupilMetricsMixin(PupilBase):
         Returns:
             float: Average baseline pupil diameter
         """
-        light_stimulus = self.get_light_stimulus()
+        light_stimulus = self._m.get_light_stimulus()
         if light_stimulus is None:
             raise ValueError("Light stimulus not set. Cannot determine baseline period.")
         start_time = light_stimulus.get_time()[0] - duration
@@ -442,5 +459,5 @@ class PupilMetricsMixin(PupilBase):
             duration (float): Duration for baseline calculation
         """
         baseline = self.calculate_baseline(duration)
-        size_relative = self.get_size() / baseline
-        self.set_time_and_size(self.get_time(), size_relative)
+        size_relative = self._m.get_size() / baseline
+        self._m.set_time_and_size(self._m.get_time(), size_relative)

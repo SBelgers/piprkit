@@ -5,13 +5,27 @@ Signal filtering and preprocessing functions for pupil data.
 from __future__ import annotations
 
 import warnings
-from typing import Callable, Optional
+from typing import TYPE_CHECKING, Callable, Optional
 
 import numpy as np
 from numpy.typing import NDArray
-from ..core.pupil_base import PupilBase
 
-class FilterMixin(PupilBase):
+if TYPE_CHECKING:
+    from ..core.pupil_measurement import PupilMeasurement
+
+
+class PupilFilters:
+    """Organised namespace for filtering operations on a PupilMeasurement.
+
+    Access via ``measurement.filters.<method>()``, e.g.::
+
+        pupMeas.filters.rolling_mean(0.1)
+        pupMeas.filters.limit_rate_of_change(5.0)
+    """
+
+    def __init__(self, measurement: "PupilMeasurement") -> None:
+        self._m = measurement
+
     def rolling_filter(
         self,
         func: Callable[[NDArray[np.number]], float],
@@ -27,8 +41,8 @@ class FilterMixin(PupilBase):
         Raises:
             ValueError: If the time window is too small.
         """
-        time_data = self.get_time()
-        size = self.get_size()
+        time_data = self._m.get_time()
+        size = self._m.get_size()
         dt = np.diff(time_data)
         window_size = int(time_window / np.mean(dt))
 
@@ -50,7 +64,7 @@ class FilterMixin(PupilBase):
             window = size[start:end]
             new_size[i] = func(window)
 
-        self.set_time_and_size(time_data, new_size)
+        self._m.set_time_and_size(time_data, new_size)
 
 
     def rolling_mean(self, time_window: float) -> None:
@@ -117,10 +131,10 @@ class FilterMixin(PupilBase):
             start_time = -np.inf
         if end_time is None:
             end_time = np.inf
-        time_data = self.get_time()
+        time_data = self._m.get_time()
         time_mask = (time_data >= start_time) & (time_data <= end_time)
 
-        roc_mask = np.full_like(self.get_size(), True, dtype=bool)
+        roc_mask = np.full_like(self._m.get_size(), True, dtype=bool)
 
         for i in range(1, n_back + 1):
             rate_of_change = self.get_rate_of_change(n_back=i)
@@ -132,7 +146,7 @@ class FilterMixin(PupilBase):
             )
             roc_mask = roc_mask & iteration_roc_mask
         combined_mask = roc_mask & time_mask
-        size = self.get_size().copy()
+        size = self._m.get_size().copy()
         size[~combined_mask] = np.nan
-        size[~time_mask] = self.get_size()[~time_mask]
-        self.set_time_and_size(time_data, size)
+        size[~time_mask] = self._m.get_size()[~time_mask]
+        self._m.set_time_and_size(time_data, size)

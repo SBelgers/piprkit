@@ -1,8 +1,8 @@
 import pytest
 import numpy as np
 
-from pypipr.data.loaders import load_simulated_pupil
-from pypipr import PupilMeasurement
+from piprkit.data.loaders import load_simulated_pupil
+from piprkit import PupilMeasurement
 #TODO: There are missing tests. Implement them.
 
 def test_load_sample():

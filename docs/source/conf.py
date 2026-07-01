@@ -10,7 +10,7 @@ from typing import Any
 sys.path.insert(0, os.path.abspath('../../'))
 
 # Import version from the package
-from pypipr._version import __version__
+from piprkit._version import __version__
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -139,25 +139,25 @@ html_show_sphinx = True
 html_show_copyright = True
 
 # Output file base name for HTML help builder
-htmlhelp_basename = 'pypiprdoc'
+htmlhelp_basename = 'piprkitdoc'
 
 # -- Options for LaTeX output ------------------------------------------------
 
 latex_elements = {}
 latex_documents = [
-    (master_doc, 'pypipr.tex', f'{project} Documentation', author, 'manual'),
+    (master_doc, 'piprkit.tex', f'{project} Documentation', author, 'manual'),
 ]
 
 # -- Options for manual page output ------------------------------------------
 
 man_pages = [
-    (master_doc, 'pypipr', f'{project} Documentation', [author], 1)
+    (master_doc, 'piprkit', f'{project} Documentation', [author], 1)
 ]
 
 # -- Options for Texinfo output ----------------------------------------------
 
 texinfo_documents = [
-    (master_doc, 'pypipr', f'{project} Documentation', author, 'pypipr',
+    (master_doc, 'piprkit', f'{project} Documentation', author, 'piprkit',
      'Package for processing pupil data, with a focus on the post illumination pupil response.', 'Miscellaneous'),
 ]
 

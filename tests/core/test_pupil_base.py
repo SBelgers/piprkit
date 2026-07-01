@@ -1,6 +1,6 @@
 import numpy as np
 
-from pypipr.core.pupil_base import PupilBase
+from piprkit.core.pupil_base import PupilBase
 
 class DummyPupil(PupilBase):
     def __init__(self):

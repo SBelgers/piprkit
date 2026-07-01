@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
-from pypipr.core.pupil_series import PupilSeries
-import pypipr
+from piprkit.core.pupil_series import PupilSeries
+import piprkit
 from matplotlib.axes import Axes
 
 
@@ -29,7 +29,7 @@ def test_pupil_series_light_stimulus_list():
     light_stimuli = [(2.0, 3.0), (4.0, 5.0)]
     ps = PupilSeries(time_data, size, light_stimuli)
     for i, stim in enumerate(ps.get_light_stimuli().get_stimuli()):
-        assert isinstance(stim, pypipr.LightStimulus)
+        assert isinstance(stim, piprkit.LightStimulus)
         np.testing.assert_array_equal(stim.get_time(), light_stimuli[i])
 
 def test_pupil_series_split():
@@ -42,7 +42,7 @@ def test_pupil_series_split():
     expected_sizes = [(6.1,6.2,6.3,6.4), (6.3,6.4,6.5,6.6)]
     expected_light_stimuli_times = [(-1,0), (-1,0)]
     for i, pm in enumerate(pm_list):
-        assert isinstance(pm, pypipr.PupilMeasurement)
+        assert isinstance(pm, piprkit.PupilMeasurement)
         np.testing.assert_array_equal(pm.get_time(), expected_times[i])
         np.testing.assert_array_equal(pm.get_size(), expected_sizes[i])
         np.testing.assert_array_equal(pm.get_light_stimulus().get_time(), expected_light_stimuli_times[i])  # type: ignore

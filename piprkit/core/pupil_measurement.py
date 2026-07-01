@@ -3,13 +3,13 @@ from __future__ import annotations
 import numpy as np
 from numpy.typing import NDArray
 
-from ..analysis.pupil_metrics import PupilMetricsMixin
-from ..preprocessing.filtering import FilterMixin
-from ..preprocessing.blinks import BlinkMixin
+from ..analysis.pupil_metrics import PupilMetrics
+from ..preprocessing.filtering import PupilFilters
+from ..preprocessing.blinks import PupilBlinks
 from .pupil_base import PupilBase
 
 
-class PupilMeasurement(PupilMetricsMixin, FilterMixin, BlinkMixin, PupilBase):
+class PupilMeasurement(PupilBase):
     """A class representing a single pupil measurement with time series data."""
 
     # ============================================================================
@@ -31,4 +31,19 @@ class PupilMeasurement(PupilMetricsMixin, FilterMixin, BlinkMixin, PupilBase):
         if len(size_data) != len(time_data):
             raise ValueError("Size and time_data must have the same length")
         self.set_time_and_size(time_data, size_data)
-        
+
+    @property
+    def metrics(self) -> PupilMetrics:
+        """Accessor for pupil metrics, e.g. ``pupMeas.metrics.baseline()``."""
+        return PupilMetrics(self)
+
+    @property
+    def filters(self) -> PupilFilters:
+        """Accessor for filtering operations, e.g. ``pupMeas.filters.rolling_mean(0.1)``."""
+        return PupilFilters(self)
+
+    @property
+    def blinks(self) -> PupilBlinks:
+        """Accessor for blink operations, e.g. ``pupMeas.blinks.remove_blinks()``."""
+        return PupilBlinks(self)
+

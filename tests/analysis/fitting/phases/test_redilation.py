@@ -1,6 +1,6 @@
 # Test for redilation phase
 import numpy as np
-import pypipr
+import piprkit
 
 
 def test_redilation():
@@ -9,7 +9,7 @@ def test_redilation():
     k = -0.4
     p = 1
     size = np.asarray(-s * np.exp(k * time_data) + p)
-    fit = pypipr.FitRedilation(time_data, size, 0, 12)
+    fit = piprkit.FitRedilation(time_data, size, 0, 12)
     fit.fit()
     fit.get_params()
     np.testing.assert_array_equal(fit.get_params(), (s, k, p))
@@ -24,7 +24,7 @@ def test_redilation():
     p = 1
     offset = 6
     size = np.asarray(-s * np.exp(k * (time_data + offset)) + p)
-    fit = pypipr.FitRedilation(time_data, size, offset, 12)
+    fit = piprkit.FitRedilation(time_data, size, offset, 12)
     fit.fit()
     fit.get_params()
     np.testing.assert_array_equal(fit.get_params(), (s, k, p))

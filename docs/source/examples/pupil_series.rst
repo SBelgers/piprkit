@@ -22,7 +22,7 @@ concepts from previous examples while remaining self-contained.
 
 .. seealso::
 
-   :doc:`PupilSeries API <../_autosummary/pypipr.PupilSeries>`
+   :doc:`PupilSeries API <../_autosummary/piprkit.PupilSeries>`
 
 
 

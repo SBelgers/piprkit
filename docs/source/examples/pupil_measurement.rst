@@ -35,7 +35,7 @@ concepts from previous examples while remaining self-contained.
 
 .. seealso::
 
-   :doc:`PupilMeasurement API <../_autosummary/pypipr.PupilMeasurement>`
+   :doc:`PupilMeasurement API <../_autosummary/piprkit.PupilMeasurement>`
 
 
 

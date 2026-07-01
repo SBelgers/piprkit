@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import os
 
 version_dict = {}
-version_file = os.path.join(os.path.dirname(__file__), "pypipr", "_version.py")
+version_file = os.path.join(os.path.dirname(__file__), "piprkit", "_version.py")
 with open(version_file, "r", encoding="utf-8") as f:
     exec(f.read(), version_dict) # type: ignore
 
@@ -13,7 +13,7 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
     requirements = [line.strip() for line in fh if line.strip() and not line.startswith("#")]
 
 setup(
-    name="pypipr",
+    name="piprkit",
     version=version_dict["__version__"], # type: ignore
     author="S. Belgers",
     author_email="s.belgers@tue.nl",
@@ -24,10 +24,10 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=requirements,
-    # include CSV and other data files under pypipr/data, including nested example dirs
+    # include CSV and other data files under piprkit/data, including nested example dirs
     package_data={
         "": ["examples/*.ipynb"],
-        "pypipr": ["data/*", "data/examples/*", "data/examples/*/*"],
+        "piprkit": ["data/*", "data/examples/*", "data/examples/*/*"],
     },
     python_requires=">=3.12",
 )
