@@ -5,13 +5,10 @@ import numpy as np
 from matplotlib.axes import Axes
 from numpy.typing import NDArray
 
-from ..preprocessing.filtering import FilterMixin
 from ..utils.light_stimuli import LightStimuliSeries
-from .pupil_base import PupilBase
 from .pupil_measurement import PupilMeasurement
-from ..preprocessing.blinks import BlinkMixin
 
-class PupilSeries(FilterMixin, BlinkMixin, PupilBase):
+class PupilSeries(PupilMeasurement):
     """
     A class representing a series of pupil measurements with multiple light stimuli.
 

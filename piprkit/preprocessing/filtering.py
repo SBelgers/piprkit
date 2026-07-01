@@ -97,9 +97,9 @@ class PupilFilters:
         Returns:
             NDArray[np.number]: The rate of change of the pupil size.
         """
-        time_data = self.get_time()
-        size = self.get_size()
-        
+        time_data = self._m.get_time()
+        size = self._m.get_size()
+
         dt = time_data[n_back:] - time_data[:-n_back]
         ds = size[n_back:] - size[:-n_back]
         rate_of_change = np.full_like(size, np.nan, dtype=np.float64)

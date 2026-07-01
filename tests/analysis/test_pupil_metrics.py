@@ -10,7 +10,7 @@ def test_transient_plr():
     size = np.linspace(2, 10, 21)
     pupil = piprkit.PupilMeasurement(time_data, size)
     pupil.set_light_stimulus(-1, 0)
-    assert pupil.transient_plr() == 0.0
+    assert pupil.metrics.transient_plr() == 0.0
 
 
 @pytest.mark.xfail(reason="Not implemented")
@@ -19,7 +19,7 @@ def test_plr_latency():
     size = np.linspace(2, 10, 21)
     pupil = piprkit.PupilMeasurement(time_data, size)
     pupil.set_light_stimulus(-1, 0)
-    assert pupil.plr_latency() == 0.0
+    assert pupil.metrics.plr_latency() == 0.0
 
 
 @pytest.mark.xfail(reason="Not implemented")
@@ -28,7 +28,7 @@ def test_constriction_v():
     size = np.linspace(2, 10, 21)
     pupil = piprkit.PupilMeasurement(time_data, size)
     pupil.set_light_stimulus(-1, 0)
-    assert pupil.constriction_v() == 0.0
+    assert pupil.metrics.constriction_v() == 0.0
 
 
 def test_peak_constriction():
@@ -36,7 +36,7 @@ def test_peak_constriction():
     size = np.array([7, 7, 6, 5, 6, 7, 7])
     pupil = piprkit.PupilMeasurement(time_data, size)
     pupil.set_light_stimulus(-1, 0)
-    assert pupil.peak_constriction() == 5
+    assert pupil.metrics.peak_constriction() == 5
 
 
 def test_time_to_peak():
@@ -44,7 +44,7 @@ def test_time_to_peak():
     size = np.array([7, 7, 6, 5, 6, 7, 7])
     pupil = piprkit.PupilMeasurement(time_data, size)
     pupil.set_light_stimulus(-1, 0)
-    assert pupil.time_to_peak() == 0.5
+    assert pupil.metrics.time_to_peak() == 0.5
 
 
 @pytest.mark.xfail(reason="Not implemented")
@@ -53,7 +53,7 @@ def test_pupil_escape():
     size = np.linspace(2, 10, 21)
     pupil = piprkit.PupilMeasurement(time_data, size)
     pupil.set_light_stimulus(-1, 0)
-    assert pupil.pupil_escape() == 0.0
+    assert pupil.metrics.pupil_escape() == 0.0
 
 
 @pytest.mark.xfail(reason="Not implemented")
@@ -62,7 +62,7 @@ def test_redilation_v():
     size = np.linspace(2, 10, 21)
     pupil = piprkit.PupilMeasurement(time_data, size)
     pupil.set_light_stimulus(-1, 0)
-    assert pupil.redilation_v() == 0.0
+    assert pupil.metrics.redilation_v() == 0.0
 
 
 def test_pipr_xs():
@@ -71,8 +71,8 @@ def test_pipr_xs():
     # print(np.vstack((time_data, size)).T)
     pupil = piprkit.PupilMeasurement(time_data, size)
     pupil.set_light_stimulus(-1, 0)
-    assert pupil.pipr_xs(5.5, 6.5) == 8.4
-    assert pupil.pipr_xs(1, 5) == 7.2
+    assert pupil.metrics.pipr_xs(5.5, 6.5) == 8.4
+    assert pupil.metrics.pipr_xs(1, 5) == 7.2
 
 
 def test_pipr_6s():
@@ -80,7 +80,7 @@ def test_pipr_6s():
     size = np.linspace(2, 10, 21)
     pupil = piprkit.PupilMeasurement(time_data, size)
     pupil.set_light_stimulus(-1, 0)
-    assert pupil.pipr_6s() == 8.4
+    assert pupil.metrics.pipr_6s() == 8.4
 
 
 @pytest.mark.xfail(reason="Not implemented")
@@ -89,7 +89,7 @@ def test_plateau():
     size = np.linspace(2, 10, 21)
     pupil = piprkit.PupilMeasurement(time_data, size)
     pupil.set_light_stimulus(-1, 0)
-    assert pupil.plateau() == 0.0
+    assert pupil.metrics.plateau() == 0.0
 
 
 @pytest.mark.xfail(reason="Not implemented")
@@ -98,7 +98,7 @@ def test_auc_early():
     size = np.linspace(2, 10, 21)
     pupil = piprkit.PupilMeasurement(time_data, size)
     pupil.set_light_stimulus(-1, 0)
-    assert pupil.auc_early() == 0.0
+    assert pupil.metrics.auc_early() == 0.0
 
 
 @pytest.mark.xfail(reason="Not implemented")
@@ -107,7 +107,7 @@ def test_auc_late():
     size = np.linspace(2, 10, 21)
     pupil = piprkit.PupilMeasurement(time_data, size)
     pupil.set_light_stimulus(-1, 0)
-    assert pupil.auc_late() == 0.0
+    assert pupil.metrics.auc_late() == 0.0
 
 
 @pytest.mark.xfail(reason="Not implemented")
@@ -116,7 +116,7 @@ def test_pipr_duration():
     size = np.linspace(2, 10, 21)
     pupil = piprkit.PupilMeasurement(time_data, size)
     pupil.set_light_stimulus(-1, 0)
-    assert pupil.pipr_duration() == 0.0
+    assert pupil.metrics.pipr_duration() == 0.0
 
 
 @pytest.mark.xfail(reason="Not implemented")
@@ -125,7 +125,7 @@ def test_net_pipr():
     size = np.linspace(2, 10, 21)
     pupil = piprkit.PupilMeasurement(time_data, size)
     pupil.set_light_stimulus(-1, 0)
-    assert pupil.net_pipr() == 0.0
+    assert pupil.metrics.net_pipr() == 0.0
 
 
 def test_get_average_size():
@@ -135,10 +135,10 @@ def test_get_average_size():
     pupil = piprkit.PupilMeasurement(time_data, size)
     # Wanr because the baseline is determined in an invalid range
     with pytest.warns():
-        pupil.get_average_size(5, 20)
-    assert pupil.get_average_size(-6, -1) == pytest.approx(4.6)
-    assert pupil.get_average_size(0, 5) == pytest.approx(7)
-    assert pupil.get_average_size(-10, 3) == pytest.approx(4.6)
+        pupil.metrics.get_average_size(5, 20)
+    assert pupil.metrics.get_average_size(-6, -1) == pytest.approx(4.6)
+    assert pupil.metrics.get_average_size(0, 5) == pytest.approx(7)
+    assert pupil.metrics.get_average_size(-10, 3) == pytest.approx(4.6)
 
 
 def test_calculate_baseline():
@@ -147,9 +147,9 @@ def test_calculate_baseline():
     pupil = piprkit.PupilMeasurement(time_data, size)
     # Fail because the light stimulus is not set.
     with pytest.raises(ValueError):
-        pupil.calculate_baseline()
+        pupil.metrics.calculate_baseline()
     pupil.set_light_stimulus(-1, 0)
     # Warn because the baseline is determined in an invalid range
     with pytest.warns():
-        pupil.calculate_baseline(20)
-    assert pupil.calculate_baseline(5) == pytest.approx(4.6)
+        pupil.metrics.calculate_baseline(20)
+    assert pupil.metrics.calculate_baseline(5) == pytest.approx(4.6)
