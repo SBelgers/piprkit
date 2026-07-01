@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "piprkit"
+dynamic = ["version"]
+description = "Package for processing pupil data, with a focus on the post illumination pupil response."
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [{ name = "S. Belgers", email = "s.belgers@tue.nl" }]
+keywords = ["pupillometry", "pupil", "PIPR", "post-illumination pupil response"]
+dependencies = [
+    "numpy>=2.3.5",
+    "matplotlib>=3.10.7",
+    "scipy>=1.16.3",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: Other/Proprietary License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering",
+]
+
+[project.urls]
+Homepage = "https://github.com/SBelgers/pypipr_package"
+Repository = "https://github.com/SBelgers/pypipr_package"
+
+[tool.setuptools]
+license-files = []   # empty LICENSE is a placeholder; don't bundle it
+
+[tool.setuptools.dynamic]
+version = { attr = "piprkit._version.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["piprkit*"]
+
+[tool.setuptools.package-data]
+piprkit = ["data/examples/*/*.csv"]
