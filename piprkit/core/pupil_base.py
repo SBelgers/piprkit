@@ -94,12 +94,14 @@ class PupilBase(ABC):
 
         time_data = self.get_time()
         if buffer_seconds > 0:
-            removed_times = time_data[~size_mask & ~np.isnan(size)]
+            removed_times = np.sort(time_data[~size_mask & ~np.isnan(size)])
             if removed_times.size > 0:
-                buffer_mask = np.any(
-                    np.abs(time_data[:, None] - removed_times[None, :]) <= buffer_seconds,
-                    axis=1,
-                )
+                # A sample is buffered out if any removed time falls within
+                # [t - buffer_seconds, t + buffer_seconds]. Using searchsorted on the
+                # sorted removed times avoids building an O(N*M) distance matrix.
+                left = np.searchsorted(removed_times, time_data - buffer_seconds, side="left")
+                right = np.searchsorted(removed_times, time_data + buffer_seconds, side="right")
+                buffer_mask = right > left
                 size_mask = size_mask & ~buffer_mask
 
         trimmed_size = np.full_like(size, np.nan, dtype=np.float64)
