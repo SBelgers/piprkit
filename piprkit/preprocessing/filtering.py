@@ -111,6 +111,7 @@ class PupilFilters:
         self,
         max_rate_of_change: float,
         n_back: int = 1,
+        buffer_seconds: float = 0.0,
         *,
         start_time: Optional[float] = None,
         end_time: Optional[float] = None,
@@ -121,6 +122,7 @@ class PupilFilters:
             pupil (PupilBase): The pupil measurement object to filter.
             max_rate_of_change (float): The maximum allowed rate of change.
             n_back (int, optional): The number of samples to look back for the rate of change calculation. Defaults to 1.
+            buffer_seconds (float, optional): Additionally removes samples within this many seconds before and after any removed sample. Defaults to 0.0.
             start_time (float, optional): The start time for the filtering. Defaults to None.
             end_time (float, optional): The end time for the filtering. Defaults to None.
 
@@ -145,6 +147,16 @@ class PupilFilters:
                 np.abs(rate_of_change) <= max_rate_of_change
             )
             roc_mask = roc_mask & iteration_roc_mask
+
+        if buffer_seconds > 0:
+            removed_times = time_data[~roc_mask]
+            if removed_times.size > 0:
+                buffer_mask = np.any(
+                    np.abs(time_data[:, None] - removed_times[None, :]) <= buffer_seconds,
+                    axis=1,
+                )
+                roc_mask = roc_mask & ~buffer_mask
+
         combined_mask = roc_mask & time_mask
         size = self._m.get_size().copy()
         size[~combined_mask] = np.nan

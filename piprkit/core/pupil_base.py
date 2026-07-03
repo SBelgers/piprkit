@@ -72,6 +72,7 @@ class PupilBase(ABC):
         self,
         min_size: float,
         max_size: float,
+        buffer_seconds: float = 0.0,
         *,
         start_time: Optional[float] = None,
         end_time: Optional[float] = None,
@@ -82,6 +83,7 @@ class PupilBase(ABC):
         Args:
             min_size (float): The minimum size of the interval to keep.
             max_size (float): The maximum size of the interval to keep.
+            buffer_seconds (float, optional): Additionally removes samples within this many seconds before and after any removed sample. Defaults to 0.0.
             drop (bool, optional): Whether to drop NaN values after trimming. Defaults to False.
             start_time (float, optional): The start time of the interval to keep. Defaults to None.
             end_time (float, optional): The end time of the interval to keep. Defaults to None.
@@ -89,10 +91,20 @@ class PupilBase(ABC):
 
         size = self.get_size()
         size_mask = (size >= min_size) & (size <= max_size)
+
+        time_data = self.get_time()
+        if buffer_seconds > 0:
+            removed_times = time_data[~size_mask & ~np.isnan(size)]
+            if removed_times.size > 0:
+                buffer_mask = np.any(
+                    np.abs(time_data[:, None] - removed_times[None, :]) <= buffer_seconds,
+                    axis=1,
+                )
+                size_mask = size_mask & ~buffer_mask
+
         trimmed_size = np.full_like(size, np.nan, dtype=np.float64)
         trimmed_size[size_mask] = size[size_mask]
 
-        time_data = self.get_time()
         if start_time is None:
             start_time = -np.inf
         if end_time is None:

@@ -55,13 +55,13 @@ class PupilBlinks:
             raise ValueError("Blink list not set.")
         return self._m.blink_list
 
-    def remove_blinks(self) -> None:
+    def remove_blinks(self, buffer_seconds: float = 0.0) -> None:
         """Remove blinks from the pupil size data by setting them to NaN."""
         blink_list = self.get_blinks()
         size = self._m.get_size()
         time_data = self._m.get_time()
         for blink_start, blink_end in blink_list:
-            mask = (time_data >= blink_start) & (time_data <= blink_end)
+            mask = (time_data >= blink_start - buffer_seconds) & (time_data <= blink_end + buffer_seconds)
             size[mask] = np.nan
         self._m.set_time_and_size(time_data, size)
 
