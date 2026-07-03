@@ -239,7 +239,7 @@ class FitRedilation(BaseFit):
     def get_formula_string(self) -> str:
         s, k, p = self.get_params()
         time_offset = self.get_time_offset()
-        return f"y = -{s:.4f} * exp(-{k:.4f} * (x + {time_offset:.4f})) + {p:.4f} from {self.get_start_time():.4f} to {self.get_end_time():.4f}"
+        return f"y = -{s:.4f} * exp({k:.4f} * (x + {time_offset:.4f})) + {p:.4f} from {self.get_start_time():.4f} to {self.get_end_time():.4f}"
 
     def fit(
         self,
