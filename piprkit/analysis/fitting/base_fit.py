@@ -198,6 +198,7 @@ class BaseFit(PupilBase):
         self,
         p0: Union[None, tuple[float, ...]],
         kwargs: Optional[dict[str, Any]] = None,
+        bounds: Optional[tuple[Sequence[float], Sequence[float]]] = None,
     ) -> None:
         if (self.get_time().shape[0] < 3) or (self.get_size().shape[0] < 3):
             warnings.warn(
@@ -205,13 +206,12 @@ class BaseFit(PupilBase):
             )
             self._set_params(*([np.nan] * len(self.get_param_names())))  # type: ignore
             return
-        if p0 is not None:
-            if kwargs is None:
-                kwargs = {"p0": p0}
-            else:
-                kwargs["p0"] = p0
         if kwargs is None:
             kwargs = {}
+        if p0 is not None:
+            kwargs["p0"] = p0
+        if bounds is not None:
+            kwargs["bounds"] = bounds
         if "nan_policy" not in kwargs:
             kwargs["nan_policy"] = "omit"
 

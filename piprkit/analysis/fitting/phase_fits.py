@@ -54,18 +54,20 @@ class FitBaseline(BaseFit):
         self,
         baseline_estimate: Union[None, float] = 1,
         kwargs: Optional[dict[str, Any]] = None,
+        bounds: Optional[tuple[Sequence[float], Sequence[float]]] = None,
     ) -> None:
         """Fit the baseline model.
 
         Args:
             baseline_estimate (Union[None, float], optional): Initial estimate for the baseline. Defaults to 1.
             kwargs (Optional[dict[str, Any]], optional): Additional arguments for curve fitting. Defaults to None.
+            bounds (Optional[tuple[Sequence[float], Sequence[float]]], optional): Lower and upper bounds on the parameter ``c``, as ``(lower, upper)``. Defaults to None (unbounded).
         """
         if baseline_estimate is None:
             p0 = None
         else:
             p0 = (baseline_estimate,)
-        self._fit_with_p0(p0, kwargs)
+        self._fit_with_p0(p0, kwargs, bounds)
 
 
 class FitLatency(BaseFit):
@@ -139,15 +141,17 @@ class FitConstrict(BaseFit):
         self,
         initial_estimate: Union[None, tuple[float, float]] = (-3.0, 1.0),
         kwargs: Optional[dict[str, Any]] = None,
+        bounds: Optional[tuple[Sequence[float], Sequence[float]]] = None,
     ) -> None:
         """Fit the constriction model.
 
         Args:
             initial_estimate (Union[None, tuple[float, float, float]], optional): Initial estimate for the parameters (m, t, c). Defaults to (0.5, 0.2, 1.0).
             kwargs (Optional[dict[str, Any]], optional): Additional arguments for curve fitting. Defaults to None.
+            bounds (Optional[tuple[Sequence[float], Sequence[float]]], optional): Lower and upper bounds on the parameters (c_v, y_0), as ``(lower, upper)``. Defaults to None (unbounded).
         """
         p0 = initial_estimate
-        self._fit_with_p0(p0, kwargs)
+        self._fit_with_p0(p0, kwargs, bounds)
         # TODO: There is an error here. For now, set the fit to np.nan.
         warnings.warn(
             "There is an issue with the implementation of the constriction phase. Defaulting to NaN."
@@ -190,15 +194,17 @@ class FitSustain(BaseFit):
         self,
         estimate: Union[None, tuple[float, float]] = (0.025, 55),
         kwargs: Optional[dict[str, Any]] = None,
+        bounds: Optional[tuple[Sequence[float], Sequence[float]]] = None,
     ) -> None:
         """Fit the sustained constriction model.
 
         Args:
             estimate (Union[None, tuple[float, float]], optional): Initial estimate for the parameters (m, c). Defaults to (0.005, 0.7).
             kwargs (Optional[dict[str, Any]], optional): Additional arguments for curve fitting. Defaults to None.
+            bounds (Optional[tuple[Sequence[float], Sequence[float]]], optional): Lower and upper bounds on the parameters (m, c), as ``(lower, upper)``. Defaults to None (unbounded).
         """
         p0 = estimate
-        self._fit_with_p0(p0, kwargs)
+        self._fit_with_p0(p0, kwargs, bounds)
 
 
 class FitRedilation(BaseFit):
@@ -239,12 +245,14 @@ class FitRedilation(BaseFit):
         self,
         estimate: Union[None, tuple[float, float, float]] = (0.45, -0.4, 1),
         kwargs: Optional[dict[str, Any]] = None,
+        bounds: Optional[tuple[Sequence[float], Sequence[float]]] = None,
     ) -> None:
         """Fit the redilation model.
 
         Args:
             estimate (Union[None, tuple[float, float, float]], optional): Initial estimate for the parameters (s, k, p). Defaults to (0.7, 0.6, 1).
             kwargs (Optional[dict[str, Any]], optional): Additional arguments for curve fitting. Defaults to None.
+            bounds (Optional[tuple[Sequence[float], Sequence[float]]], optional): Lower and upper bounds on the parameters (s, k, p), as ``(lower, upper)``. Defaults to None (unbounded).
         """
         p0 = estimate
-        self._fit_with_p0(p0, kwargs)
+        self._fit_with_p0(p0, kwargs, bounds)
