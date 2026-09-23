@@ -4,8 +4,8 @@ import numpy as np
 from numpy.typing import NDArray
 
 from ..analysis.pupil_metrics import PupilMetrics
-from ..preprocessing.filtering import PupilFilters
 from ..preprocessing.blinks import PupilBlinks
+from ..preprocessing.filtering import PupilFilters
 from .pupil_base import PupilBase
 
 
@@ -34,16 +34,16 @@ class PupilMeasurement(PupilBase):
 
     @property
     def metrics(self) -> PupilMetrics:
-        """Accessor for pupil metrics, e.g. ``pupMeas.metrics.baseline()``."""
+        """Accessor for pupil metrics: pupMeas.metrics.baseline()."""
         return PupilMetrics(self)
 
     @property
     def filters(self) -> PupilFilters:
-        """Accessor for filtering operations, e.g. ``pupMeas.filters.rolling_mean(0.1)``."""
+        """Accessor for filtering operations: `pupMeas.filters.rolling_mean(0.1)."""
         return PupilFilters(self)
 
     @property
     def blinks(self) -> PupilBlinks:
-        """Accessor for blink operations, e.g. ``pupMeas.blinks.remove_blinks()``."""
+        """Accessor for blink operations: pupMeas.blinks.remove_blinks()."""
         return PupilBlinks(self)
 
