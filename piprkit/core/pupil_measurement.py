@@ -34,16 +34,28 @@ class PupilMeasurement(PupilBase):
 
     @property
     def metrics(self) -> PupilMetrics:
-        """Accessor for pupil metrics: pupMeas.metrics.baseline()."""
+        """Accessor for pupil metrics: `pupMeas.metrics.mean()`.
+
+        Returns:
+            PupilMetrics: PupilMetrics object for calculating metrics on the pupil measurement.
+        """        
         return PupilMetrics(self)
 
     @property
     def filters(self) -> PupilFilters:
-        """Accessor for filtering operations: `pupMeas.filters.rolling_mean(0.1)."""
+        """Accessor for pupil filters: `pupMeas.filters.lowpass()`.
+
+        Returns:
+            PupilFilters: PupilFilters object for applying filters to the pupil measurement.
+        """
         return PupilFilters(self)
 
     @property
     def blinks(self) -> PupilBlinks:
-        """Accessor for blink operations: pupMeas.blinks.remove_blinks()."""
+        """Accessor for pupil blinks: `pupMeas.blinks.detect()`.
+
+        Returns:
+            PupilBlinks: PupilBlinks object for detecting and handling blinks in the pupil measurement.
+        """
         return PupilBlinks(self)
 
