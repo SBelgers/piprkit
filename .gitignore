@@ -3,6 +3,15 @@ venv.nosync/
 __pycache__/
 *.egg-info/
 .vscode/
+.claude/
 docs/build/
 docs/source/_autosummary
 docs/jupyter_execute
+tests/plots/
+tools/
+dist/
+build/
+
+
+todo/
+TODO.md

@@ -1,84 +1,74 @@
-.. Pypipr documentation master file, created by
-   sphinx-quickstart on Tue Aug 19 11:25:46 2025.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+=======
+piprkit
+=======
 
-==============
-PyPipr Package
-==============
+**A Python package for processing pupil data, with a focus on the post-illumination pupil response (PIPR).**
 
+.. image:: https://img.shields.io/pypi/v/piprkit.svg
+   :target: https://pypi.org/project/piprkit/
+   :alt: PyPI version
 
-**A Python package for processing pupil data, with a focus on the post illumination pupil response (PIPR).**
+.. image:: https://img.shields.io/pypi/pyversions/piprkit.svg
+   :target: https://pypi.org/project/piprkit/
+   :alt: Python versions
 
-.. image:: https://img.shields.io/badge/python-3.12+-blue.svg
-   :target: https://python.org
-   :alt: Python Version
-
-.. image:: https://img.shields.io/badge/license-MIT-green.svg
+.. image:: https://img.shields.io/pypi/l/piprkit.svg
+   :target: https://pypi.org/project/piprkit/
    :alt: License
+
+.. image:: https://github.com/SBelgers/piprkit/actions/workflows/tests.yml/badge.svg
+   :target: https://github.com/SBelgers/piprkit/actions/workflows/tests.yml
+   :alt: Tests
 
 
 Overview
 ========
 
-PyPipr is a comprehensive Python package designed for analyzing pupil diameter data, with specialized functionality for post-illumination pupil responses (PIPR). The package provides tools for data loading, preprocessing, analysis, and visualization of pupillometry data.
 
-Key Features
-============
+piprkit is made to process pupil data after collecting it with a pupillometer. It allows
+processing series of measurements and individual measurements. Using very simple commands, it
+offers features such as filtering, blink deletion, data smoothing, baseline correction, and
+more. Common metrics such as the 6s-PIPR or AUC are easily extracted. Models of the pupil
+response can be fitted to the data to improve data quality and for advanced analysis.
 
-* **Data Loading**: Support for loading continuous pupil data and simulated data generation
-* **Preprocessing**: Filtering and baseline correction
-* **Analysis**: Comprehensive pupil metrics and fitting algorithms
-* **Pupil measurement series**: Batch processing and analysis of multiple measurements
-* **Visualization**: Pplotting capabilities for pupil data exploration
+Everything is strongly grounded in literature; references are provided where relevant.
 
 
 Installation
-------------
+============
 
 .. code-block:: bash
 
-   pip install git+https://github.com/SBelgers/piprkit_package.git
-
-
-Examples and Tutorials
-======================
-
-The package includes comprehensive Jupyter notebook examples
+   pip install piprkit
 
 
 .. toctree::
    :maxdepth: 2
-   :caption: Examples:
+   :caption: Examples
 
-   
    examples/pupil_measurement
-   examples/pupil_fit
    examples/pupil_series
+   examples/pupil_fit
+   examples/example_ipynb/full_example
 
-
-API Reference
-=============
-
-.. autosummary::
-   :toctree: _autosummary
-   :caption: Main Classes and Functions
-   :recursive:
-   
-   piprkit.PupilMeasurement
-   piprkit.PupilSeries
-   piprkit.PupilFit
-
-Additional Information
-======================
-
-The package includes comprehensive Jupyter notebook examples
+Clear and extensive examples can be found for :doc:`single measurements <examples/pupil_measurement>`,
+:doc:`series <examples/pupil_series>` and :doc:`fitting <examples/pupil_fit>`; the full API
+reference is found in :doc:`API reference <api>`.
 
 .. toctree::
    :maxdepth: 1
-   :caption: Additional Information:
-   
+   :caption: Reference
+
+   planned_features
+   api
+   references
+   changelog
    license
 
-.. note::
-   This documentation is automatically generated from the source code.
+
+AI statement
+============
+
+The code is initially fully handwritten and checked by hand. All documentation apart from
+docstrings is handwritten. Claude Opus 5.5 is used to generate unittests, aid in writing
+docstrings, and to aid with optimization of the code base.

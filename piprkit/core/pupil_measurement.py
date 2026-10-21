@@ -4,29 +4,26 @@ import numpy as np
 from numpy.typing import NDArray
 
 from ..analysis.pupil_metrics import PupilMetrics
-from ..preprocessing.blinks import PupilBlinks
-from ..preprocessing.filtering import PupilFilters
 from .pupil_base import PupilBase
 
 
 class PupilMeasurement(PupilBase):
     """A class representing a single pupil measurement with time series data."""
 
-    # ============================================================================
-    # INITIALIZATION AND CORE DATA METHODS
-    # ============================================================================
-
     def __init__(
         self, time_data: NDArray[np.number], size_data: NDArray[np.number]
     ) -> None:
-        """Initialize PupilMeasurement with time and size data.
+        """Initialize PupilMeasurement with time and pupil size data.
 
         Args:
-            time_data (NDArray[np.number]): Array of time data.
-            size (NDArray[np.number]): Array of size data.
+            time_data (NDArray[np.number]): 1-D array with the time of each sample in seconds,
+                strictly increasing and without NaN.
+            size_data (NDArray[np.number]): 1-D array with the pupil size of each sample (usually
+                the diameter in mm), same length as ``time_data``. NaN marks missing samples.
 
         Raises:
-            ValueError: If the time and size arrays do not have the same length.
+            ValueError: If the arrays differ in length, or if time_data is not strictly
+                increasing or contains NaN.
         """
         if len(size_data) != len(time_data):
             raise ValueError("Size and time_data must have the same length")
@@ -34,28 +31,9 @@ class PupilMeasurement(PupilBase):
 
     @property
     def metrics(self) -> PupilMetrics:
-        """Accessor for pupil metrics: `pupMeas.metrics.mean()`.
+        """The pupil metrics of this measurement.
 
-        Returns:
-            PupilMetrics: PupilMetrics object for calculating metrics on the pupil measurement.
-        """        
+        Each metric is a method, for example ``measurement.metrics.pipr_6s()``.
+        See :class:`~piprkit.analysis.pupil_metrics.PupilMetrics` for all metrics.
+        """
         return PupilMetrics(self)
-
-    @property
-    def filters(self) -> PupilFilters:
-        """Accessor for pupil filters: `pupMeas.filters.lowpass()`.
-
-        Returns:
-            PupilFilters: PupilFilters object for applying filters to the pupil measurement.
-        """
-        return PupilFilters(self)
-
-    @property
-    def blinks(self) -> PupilBlinks:
-        """Accessor for pupil blinks: `pupMeas.blinks.detect()`.
-
-        Returns:
-            PupilBlinks: PupilBlinks object for detecting and handling blinks in the pupil measurement.
-        """
-        return PupilBlinks(self)
-

@@ -1,46 +1,36 @@
-# Unit Test Status
-![Unit Tests](https://github.com/SBelgers/pypipr_package/actions/workflows/tests.yml/badge.svg)
-# piprkit - Pupil Data Processing Package
+# piprkit
 
-A Python package for processing pupil data, with a focus on the post illumination pupil response (PIPR).
+[![PyPI](https://img.shields.io/pypi/v/piprkit.svg)](https://pypi.org/project/piprkit/)
+[![Tests](https://github.com/SBelgers/piprkit/actions/workflows/tests.yml/badge.svg)](https://github.com/SBelgers/piprkit/actions/workflows/tests.yml)
 
-## Features
+A Python package for processing pupil data, with a focus on the post-illumination pupil response (PIPR).
 
-- Core data structures for pupillometry: `PupilMeasurement` and `PupilSeries`.
-- Utilities for light stimuli: `LightStimulus` and `LightStimuliSeries` with plotting and time-offset support.
-- Data loaders and example data: `load_real_series`, `load_simulated_pupil`, and `simulate_pupil_measurement` for quick demos and tests.
-- Preprocessing helpers: rolling mean/median, rate-of-change limiting, interpolation, trimming, and NaN handling.
-- Fitting framework: phase-based fitting (baseline, latency, constriction, sustained, redilation) and `PupilFit` convenience wrapper.
-- Basic metrics: baseline calculation and window-based helpers like `pipr_6s`, `pipr_xs`, `peak_constriction`, and `time_to_peak`.
+## Overview
 
-## Feature Completeness
-| Feature Category          | Status                  | Description                                                                           |
-| ------------------------- | ----------------------- | ------------------------------------------------------------------------------------- |
-| Core Data Classes         | ✅ Implemented           | `PupilMeasurement`, `PupilSeries`                                                     |
-| Light-Stimulus Utilities  | ✅ Implemented           | Utilities for stimulus handling                                                       |
-| Preprocessing Filters     | ✅ Implemented           | Includes smoothing, normalization, etc.                                               |
-| Basic Metrics             | ✅ Implemented           | `baseline`, `pipr_6s`                                                                 |
-| Data Loaders              | ⚠️ Partially Implemented           | Functions to load example and user datasets implemented, better file loading required.                                          |
-| Fitting Pipeline          | ⚠️ Partially Implemented | Some phase fits work; `FitConstrict` and `PupilFit` have TODOs, may return NaNs       |
-| FitLatency                | ❌ Not Implemented       | Stub only                                                                             |
-| Advanced PLR/PIPR Metrics | ❌ Not Implemented       | `transient_plr`, `plr_latency`, `constriction_v`, `redilation_v`, `auc_*`, `net_pipr` |
+piprkit is made to process pupil data after collecting it with a pupillometer. It allows
+processing series of measurements and individual measurements. Using very simple commands, it
+offers features such as filtering, blink deletion, data smoothing, baseline correction, and
+more. Common metrics such as the 6s-PIPR or AUC are easily extracted. Models of the pupil
+response can be fitted to the data to improve data quality and for advanced analysis.
 
-See `TODO.md` for an extensive list.
+Everything is strongly grounded in literature; references are provided where relevant.
 
 ## Installation
 
+    pip install piprkit
+
+## Documentation
+
+
+The documentation, with example notebooks, the API reference and the planned features, is at https://sbelgers.github.io/piprkit/.
 
 ## Examples
 
-Check out the `examples/` directory for Jupyter notebooks demonstrating:
-- Basic measurement processing
-- Time series analysis
-- Complete analysis workflows
-
+The example notebooks are in [docs/source/examples/example_ipynb](https://github.com/SBelgers/piprkit/tree/main/docs/source/examples/example_ipynb), and with their output in the [documentation](https://sbelgers.github.io/piprkit/).
 
 ## License
 
-[Add your license information here]
+MIT, see [LICENSE](https://github.com/SBelgers/piprkit/blob/main/LICENSE).
 
 ## Author
 

@@ -5,18 +5,20 @@
 
 import os
 import sys
-from typing import Any
-# Add the project root to the path
+from typing import Any, get_origin
+
+import numpy as np
+from numpy.typing import ArrayLike
+
 sys.path.insert(0, os.path.abspath('../../'))
 
-# Import version from the package
 from piprkit._version import __version__
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Pypipr'
-copyright = '2025, S. Belgers'
+project = 'piprkit'
+copyright = '2025–2026, S. Belgers'
 author = 'S. Belgers'
 release = __version__
 version = __version__
@@ -28,6 +30,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.napoleon",
+    "sphinx_autodoc_typehints",
     "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
     "sphinx.ext.intersphinx",
@@ -35,130 +38,68 @@ extensions = [
     "myst_nb",
 ]
 
-# Napoleon settings for Google/NumPy style docstrings
-napoleon_google_docstring = True
-napoleon_numpy_docstring = True
-napoleon_include_init_with_doc = False
-napoleon_include_private_with_doc = False
 napoleon_include_special_with_doc = True
-napoleon_use_admonition_for_examples = False
-napoleon_use_admonition_for_notes = False
-napoleon_use_admonition_for_references = False
-napoleon_use_ivar = False
-napoleon_use_param = True
-napoleon_use_rtype = True
-napoleon_preprocess_types = False
-napoleon_type_aliases = None
-napoleon_attr_annotations = True
+napoleon_use_ivar = True
 
-# Autodoc settings
+def typehints_formatter(annotation: Any, config: Any) -> str | None:
+    if get_origin(annotation) is np.ndarray:
+        return ":class:`numpy.ndarray`"
+    if annotation == ArrayLike:
+        return ":term:`numpy:array_like`"
+    return None
+
+def _skip_builtin_members(app: Any, what: str, name: str, obj: Any, skip: bool, options: Any) -> bool | None:
+    if getattr(obj, "__objclass__", None) in (float, object):
+        return True
+    owner = getattr(obj, "__self__", None)
+    if isinstance(owner, type) and issubclass(owner, float) and name in vars(float):
+        return True
+    return None
+
+def setup(app: Any) -> None:
+    app.connect("autodoc-skip-member", _skip_builtin_members)
+
+autodoc_type_aliases = {"ArrayLike": "numpy.typing.ArrayLike"}
+
 autodoc_default_options = { # type:ignore
     'members': True,
     'member-order': 'bysource',
-    'special-members': '__init__',
     'undoc-members': True,
     'inherited-members': True,
     'exclude-members': '__weakref__'
 }
 
-# Autosummary settings
-autosummary_generate = True
-
-# Intersphinx mapping
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
     'numpy': ('https://numpy.org/doc/stable/', None),
     'matplotlib': ('https://matplotlib.org/stable/', None),
-    'pandas': ('https://pandas.pydata.org/docs/', None),
     'scipy': ('https://docs.scipy.org/doc/scipy/', None),
 }
 
-# MyST parser settings
 myst_enable_extensions = [
-    "colon_fence",
-    "deflist",
     "dollarmath",
-    "html_admonition",
-    "html_image",
-    "replacements",
-    "smartquotes",
-    "substitution",
-    "tasklist",
 ]
 
 # MyST-NB (myst_nb) notebook execution settings
-# Set notebook execution to 'off' to avoid running notebooks during documentation builds.
 # See myst-nb docs for available options: execution_mode can be 'off', 'auto', 'force', 'cache', 'inline'.
-nb_execution_mode = 'off'  # don't execute notebooks during build
-nb_execution_allow_errors = True
+nb_execution_mode = 'force'
+nb_execution_raise_on_error = True
 nb_execution_timeout = 60
+nb_render_markdown_format = "myst"
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-# Source file suffixes
 source_suffix: dict[str, Any] = {
     ".rst": None,
     ".ipynb": "myst-nb",
-    ".myst": "myst-nb",
 }
-
-# The master toctree document
-master_doc = 'index'
-
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
 html_theme_options: dict[str, Any] = {
-    'navigation_depth': 4,
     'collapse_navigation': False,
-    'sticky_navigation': True,
-    'includehidden': True,
-    'titles_only': False
 }
-
-# Custom CSS and JS files
-html_css_files = []
-html_js_files = []
-
-# HTML output options
 html_title = f"{project} {version}"
-html_short_title = project
-html_favicon = None
-html_logo = None
-
-# Show source link
-html_show_sourcelink = True
-html_show_sphinx = True
-html_show_copyright = True
-
-# Output file base name for HTML help builder
-htmlhelp_basename = 'piprkitdoc'
-
-# -- Options for LaTeX output ------------------------------------------------
-
-latex_elements = {}
-latex_documents = [
-    (master_doc, 'piprkit.tex', f'{project} Documentation', author, 'manual'),
-]
-
-# -- Options for manual page output ------------------------------------------
-
-man_pages = [
-    (master_doc, 'piprkit', f'{project} Documentation', [author], 1)
-]
-
-# -- Options for Texinfo output ----------------------------------------------
-
-texinfo_documents = [
-    (master_doc, 'piprkit', f'{project} Documentation', author, 'piprkit',
-     'Package for processing pupil data, with a focus on the post illumination pupil response.', 'Miscellaneous'),
-]
-
-# -- Extension configuration -------------------------------------------------

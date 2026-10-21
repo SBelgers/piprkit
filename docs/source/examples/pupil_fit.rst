@@ -1,31 +1,15 @@
-Pupil Fitting Examples
-==========================
-
-This section contains comprehensive examples for working with individual pupil measurements.
-
-
-
-Overview
---------
-
-Start with the first notebook to understand the basic concepts, then progress through
-the examples based on your specific analysis needs. Each notebook builds upon
-concepts from previous examples while remaining self-contained.
-
+Fitting Examples
+================
 
 
 .. toctree::
    :maxdepth: 1
    :caption: Fit:
-   :glob:
 
-   example_ipynb/pupil_fitting/08_comprehensive_fitting.ipynb
-
+   example_ipynb/pupil_fitting/01_phase_model.ipynb
+   example_ipynb/pupil_fitting/02_series_fitting.ipynb
 
 
 .. seealso::
 
-   :doc:`PupilFit API <../_autosummary/piprkit.PupilFit>`
-
-
-
+   :doc:`PhaseModel API <../_autosummary/piprkit.PhaseModel>`
