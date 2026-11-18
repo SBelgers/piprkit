@@ -1,118 +1,85 @@
-# Pipeline B, PIPRkit side: PupilMetrics' cleaning and measures, matched as closely as PIPRkit allows.
-# Writes its outputs to validation/output/pupilmetrics_<rate>hz/, including the cleaned series that
-# pupilmetrics_reference.py also measures; report.py compares them with PupilMetrics' outputs.
+# PupilMetrics' pipeline on the 67 Hz grid: its NeuroLight reader, range clip, cleaning, drop detection and measures.
+# PupilMetrics (GPL-3.0) is imported from the folder given as argument; none of its code is part of this repository.
+# Its pupildata.py silences all warnings at import, so it runs in a script of its own. Its drop detection needs numpy
+# 1.23 or older, so this script runs in a venv of its own.
 import argparse
+import sys
+from pathlib import Path
 
+import matplotlib
+
+matplotlib.use("Agg")
 import numpy as np
 import pandas as pd
 
-from common import EYES, OUTPUT, POST_ONSET, PRE_STIMULUS, call, load_series
-
-MEASURES = ("baseline", "MCA", "RT", "6s constriction")
-
-
-def piprkit_steps(series):
-    # B1-B3 with the options nearest to PupilMetrics', and the warnings of B1 and B2
-    b1 = series.copy()
-    _, clip_warnings = call(b1.trim_size, 0.2, 10)
-    b2 = b1.copy()
-    _, rate_warnings = call(b2.filters.limit_rate_of_change, 6.0)
-    # To match PupilMetrics' straight-line rule: more than f // 8 samples, 0.125 s at 200 Hz
-    _, constant_warnings = call(b2.filters.remove_constant_signal, 0.125)
-    b3 = b2.drop_nan(inplace=False)
-    b3.interpolate(series.get_time())
-    return b1, b2, b3, {"B1": clip_warnings, "B2": join(rate_warnings, constant_warnings)}
-
-
-def piprkit_metrics(epoch, matched):
-    # PIPRkit's values in PupilMetrics' units; matched=False uses PIPRkit's default arguments instead
-    onset, offset = epoch.get_light_stimulus().get_timing()
-    duration = offset - onset
-    # To match PupilMetrics: baseline 0.25 s before onset, peak search to 2.025 s and "6s constriction" 7.0-7.1 s after onset
-    # PIPRkit counts the last two from light offset, the stimulus duration later
-    ratio, ratio_warnings = call(epoch.filters.baseline_correction_ratio, 0.25, inplace=False)
-    if matched:
-        baseline, baseline_warnings = call(epoch.metrics.baseline, 0.25)
-        peak, peak_warnings = call(ratio.metrics.peak_constriction, 2.025 - duration)
-        time_to_peak, time_warnings = call(ratio.metrics.time_to_peak, 2.025 - duration)
-        pipr, pipr_warnings = call(ratio.metrics.pipr_xs, 7.0 - duration, 7.1 - duration)
-    else:
-        baseline, baseline_warnings = call(epoch.metrics.baseline)
-        peak, peak_warnings = call(ratio.metrics.peak_constriction)
-        time_to_peak, time_warnings = call(ratio.metrics.time_to_peak)
-        pipr, pipr_warnings = call(ratio.metrics.pipr_6s)
-    values = {
-        "baseline": float(baseline),
-        "MCA": 100 * (1 - peak),
-        "RT": float(time_to_peak),
-        "6s constriction": 100 * (1 - pipr),
-    }
-    texts = {
-        "baseline": baseline_warnings,
-        "MCA": join(ratio_warnings, peak_warnings),
-        "RT": join(ratio_warnings, time_warnings),
-        "6s constriction": join(ratio_warnings, pipr_warnings),
-    }
-    return values, texts
-
-
-def join(*texts):
-    return " | ".join(text for text in texts if text)
-
-
-def write_options(folder):
-    rows = [
-        ("B1", "range clip in PupilData (< 0.2 or > 10 mm)", "trim_size(0.2, 10)", "", ""),
-        ("B2", "PupilData.no_artefact(), thresholds 3 ('medium'), 'Remove only steep artifacts' on",
-         "filters.limit_rate_of_change(6.0), then filters.remove_constant_signal(0.125)", "", ""),
-        ("B3", "the interpolation at the end of no_artefact()", "drop_nan(), then interpolate(grid)", "", ""),
-        ("B4", "per flash in the whole recording", f"split({PRE_STIMULUS:g}, {POST_ONSET:g} - D)", "", ""),
-        ("baseline", "mean of the int(0.25 f) samples before the flash", "metrics.baseline(0.25)",
-         "metrics.baseline()", ""),
-        ("MCA", "100 - smallest % of baseline in the round(2.025 f) samples from the flash",
-         "metrics.peak_constriction(2.025 - D) after filters.baseline_correction_ratio(0.25)",
-         "metrics.peak_constriction() on the same data", "100 (1 - peak)"),
-        ("RT", "(n + 2.42) / f, n samples from the flash to that smallest value",
-         "metrics.time_to_peak(2.025 - D) on the same data", "metrics.time_to_peak() on the same data", ""),
-        ("6s constriction", "100 - mean % of baseline over the samples 7 f to int(7.1 f) after the flash",
-         "metrics.pipr_xs(7.0 - D, 7.1 - D) on the same data", "metrics.pipr_6s() on the same data",
-         "100 (1 - value)"),
-    ]
-    columns = ["step", "pupilmetrics", "piprkit", "piprkit_default", "conversion"]
-    pd.DataFrame(rows, columns=columns).to_csv(folder / "options.csv", index=False)
+OUTPUT = Path(__file__).parent / "output"
+EYES = ("left",)
+RATE = 67
+# PupilMetrics' default settings from its README and help: delete threshold, drop detection and derivative smoothing 3
+# ("medium"), fit precision 5 ("high"; its shipped files/settings.npy has 3), zoom and fit display off, and "Remove only
+# steep artifacts" off, so its drop detection runs
+SETTINGS = [3, 3, 5, 3, 0, 0, 0]
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Pipeline B, PIPRkit side, on the packaged real recording")
-    parser.add_argument("--rate", type=int, default=200, help="rate of the even time grid in Hz (default 200)")
-    rate = parser.parse_args().rate
-    folder = OUTPUT / f"pupilmetrics_{rate}hz"
-    folder.mkdir(parents=True, exist_ok=True)
-    write_options(folder)
-    metric_rows, step_rows = [], []
+    parser = argparse.ArgumentParser(description="PupilMetrics' pipeline")
+    parser.add_argument("pupilmetrics", type=Path, help="folder with PupilMetrics' code (pupildata.py, updater.py)")
+    # At the end of sys.path, so PupilMetrics' module names (read, plot, settings) can't shadow other modules
+    sys.path.append(str(parser.parse_args().pupilmetrics.resolve()))
+    import pupildata
+    import updater
+
+    class MeasuresOnly(updater.Updater):
+        # Updater.compute_measures without what Updater.__init__ also does: the averaged recording, plots and files
+        def __init__(self, data):
+            self.data = data
+            self.settings = data.settings
+            self.m = len(data.flash_times[0])
+            self.flash_forgot = np.zeros((1, self.m, 2), dtype=np.int64)
+
+        def measures(self, size):
+            self.data.drop_free = [np.asarray(size, dtype=np.float64)]
+            self.data.measures = np.zeros((1, self.m, 7))
+            self.data.grad = [[]]
+            self.data.deriv_smooth = [[]]
+            for k in range(self.m):
+                self.compute_measures(0, k)
+            return self.data.measures[0].copy()
+
+    (OUTPUT / "final").mkdir(parents=True, exist_ok=True)
+    grid = pd.read_csv(OUTPUT / "intermediate" / "grid_67hz.csv")
+    stimuli = pd.read_csv(OUTPUT / "intermediate" / "stimuli.csv")
+    onset_samples = np.searchsorted(grid["time"], stimuli["onset"], side="left")
+    cleaned = {"time": grid["time"].to_numpy()}
+    rows = []
     for eye in EYES:
-        series, _, _ = load_series(eye, rate)
-        b1, b2, b3, step_warnings = piprkit_steps(series)
-        np.savez_compressed(folder / f"piprkit_{eye}.npz", time=series.get_time(), b1=b1.get_size(),
-                            b2=b2.get_size(), b3=b3.get_size())
-        for step, text in step_warnings.items():
-            step_rows.append({"eye": eye, "step": step, "piprkit_warnings": text})
-        durations = [end - start for start, end in b3.get_light_stimuli_series().get_timings()]
-        for trial, epoch in enumerate(b3.split(PRE_STIMULUS, POST_ONSET - np.mean(durations))):
-            matched, matched_warnings = piprkit_metrics(epoch, matched=True)
-            default, default_warnings = piprkit_metrics(epoch, matched=False)
-            for measure in MEASURES:
-                metric_rows.append({
-                    "eye": eye,
-                    "trial": trial + 1,
-                    "metric": measure,
-                    "piprkit": matched[measure],
-                    "piprkit_default": default[measure],
-                    "piprkit_warnings": matched_warnings[measure],
-                    "default_warnings": default_warnings[measure],
-                })
-    pd.DataFrame(metric_rows).to_csv(folder / "piprkit_metrics.csv", index=False)
-    pd.DataFrame(step_rows).to_csv(folder / "piprkit_step_warnings.csv", index=False)
+        folder = (OUTPUT / "intermediate" / f"neurolight_{eye}").resolve().as_posix() + "/"
+        data = pupildata.PupilData(folder, "NeuroLight", ["", ""], np.array(SETTINGS))
+        if data.errors[0] or data.f != RATE or list(data.flash_times[0]) != list(onset_samples):
+            raise RuntimeError(f"PupilMetrics did not read the {eye} eye as written: {data.errors[1]}")
+        # Removes samples faster than 6 mm/s or 90 mm/s² (central differences), straight stretches over 0.125 s and
+        # samples 1.2-3.3 s after a flash by its own rule; merges gaps less than 0.25 s apart and interpolates
+        data.no_artefact()
+        # Its drop detection: a curve fitted per flash, and the drops below it removed and interpolated. Without the
+        # GUI's review every detected drop stays removed, as the GUI first shows it.
+        data.fit_signal(["", ""])
+        data.no_drop()
+        cleaned[eye] = np.array(data.drop_free[0], dtype=np.float64)
+        # Its windows count whole samples from the flash sample: baseline 0.25 s before, peak search to 2.025 s after
+        # (RT adds 2.42 samples), 6s constriction 7.0-7.1 s after
+        values = MeasuresOnly(data).measures(cleaned[eye])
+        for trial in range(len(onset_samples)):
+            baseline, mca, rt, six_s = values[trial, :4]
+            metrics = [
+                ("baseline", baseline, "mm"),
+                ("peak constriction", mca, "% constriction"),
+                ("time to peak", rt, "s"),
+                ("6 s PIPR", six_s, "% constriction"),
+            ]
+            for metric, value, unit in metrics:
+                rows.append({"eye": eye, "trial": trial + 1, "metric": metric, "value": value, "unit": unit})
+    pd.DataFrame(cleaned).to_csv(OUTPUT / "intermediate" / "pupilmetrics_series.csv", index=False)
+    pd.DataFrame(rows).to_csv(OUTPUT / "final" / "pupilmetrics_metrics.csv", index=False)
 
 
 if __name__ == "__main__":
