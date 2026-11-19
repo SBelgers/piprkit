@@ -154,6 +154,18 @@ def test_peak_at_light_offset_leaves_maintained_constriction_not_defined(plot_ph
     plot_phase_model(model, measurement)
 
 
+def test_maintained_constriction_runs_from_the_constriction_end(plot_phase_model):
+    # The smallest size of the packaged blue trace lies 70 ms before the redilation start, at the end of a slightly
+    # drifting plateau. The maintained constriction used to start there and was too short to fit
+    measurement = piprkit.load_simulated_pupil("blue")
+    model = piprkit.PhaseModel(measurement, baseline_duration=5)
+    window = model.get_window()
+    assert window["maintained_constriction"]["start"] == window["constriction"]["end"] == pytest.approx(-0.69)
+    assert window["maintained_constriction"]["end"] == window["redilation"]["start"] == pytest.approx(0.003)
+    assert not model.get_flags()["maintained_constriction"]["not_defined"]
+    plot_phase_model(model, measurement)
+
+
 def constriction_after_offset():
     # Light from 0 to 1 s; the size falls at -0.3 per s until 2 s, then stays flat
     time_data = np.linspace(-5, 6, 1101)

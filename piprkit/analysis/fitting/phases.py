@@ -107,8 +107,8 @@ class MaintainedConstrictionPhase(Phase):
     .. math:: y = m x + c
 
     x is the time since the start of the window, in seconds. m is the slope in size units per second,
-    and c the size at the start of the window. A PhaseModel uses the window from the peak
-    constriction to the redilation start.
+    and c the size at the start of the window. A PhaseModel uses the window from the constriction end
+    to the redilation start.
     """
 
     @staticmethod
