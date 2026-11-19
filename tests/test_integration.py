@@ -148,12 +148,11 @@ def test_real_series_maintained_constriction_and_redilation_start(real_measureme
     model = piprkit.PhaseModel(measurement, baseline_duration=5)
     offset = measurement.get_light_stimulus().get_timing()[1]
     window = model.get_window()
-    maintained = model.get_flags()["maintained_constriction"]
+    assert window["maintained_constriction"]["start"] == window["constriction"]["end"]
     assert window["maintained_constriction"]["end"] == window["redilation"]["start"]
     assert window["maintained_constriction"]["sections"] == ("post_stimulus",)
+    assert not model.get_flags()["maintained_constriction"]["not_defined"]
     if plateau:
         assert window["redilation"]["start"] - offset > 4
-        assert not maintained["not_defined"]
     else:
         assert window["redilation"]["start"] - offset < 1
-        assert maintained["not_defined"]

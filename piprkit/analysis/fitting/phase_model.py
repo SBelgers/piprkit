@@ -72,9 +72,11 @@ class PhaseModel(BaseModel):
        to the redilation end. The redilation start is not before the constriction end.
 
     The peak constriction is the smallest pupil size from light onset to light offset +
-    ``peak_constriction_window``. Between two phases, the model is interpolated with
-    :meth:`PupilMeasurement.interpolate`. Before the baseline it continues the baseline, and after
-    the redilation end the redilation. A phase without a fit and the stretches next to it are NaN.
+    ``peak_constriction_window``. The maintained constriction runs from the constriction end, or
+    from the peak constriction if that comes first, to the redilation start. Between two phases, the
+    model is interpolated with :meth:`PupilMeasurement.interpolate`. Before the baseline it continues
+    the baseline, and after the redilation end the redilation. A phase without a fit and the
+    stretches next to it are NaN.
 
     References:
         - Feigl, B., Mattes, D., Thomas, R., & Zele, A. J. (2011). Intrinsically Photosensitive (Melanopsin) Retinal Ganglion Cell Function in Glaucoma. Investigative Ophthalmology & Visual Science, 52(7), 4362–4367. https://doi.org/10.1167/iovs.10-7069
@@ -271,8 +273,11 @@ class PhaseModel(BaseModel):
                         time_data, size_data, *breakpoints, min_samples=self.min_samples
                     )
             elif phase == "maintained_constriction":
+                # The maintained constriction starts at the constriction end. On noise-free data the constriction
+                # end can land one sample after the peak constriction; then it starts at the peak constriction
+                start = peak_constriction if breakpoints is None else min(breakpoints[1], peak_constriction)
                 self._phase_models[phase] = MaintainedConstrictionPhase(
-                    time_data, size_data, peak_constriction, redilation_start, min_samples=self.min_samples
+                    time_data, size_data, start, redilation_start, min_samples=self.min_samples
                 )
             else:
                 self._phase_models[phase] = RedilationPhase(
@@ -666,15 +671,13 @@ class PhaseModel(BaseModel):
         from the fit:
 
         - ``constriction_delay``: the constriction start, from light onset.
-        - ``time_to_peak``: the peak constriction (the maintained constriction start), from light onset.
+        - ``time_to_peak``: the maintained constriction start, from light onset.
         - ``redilation_delay``: the redilation start, from light offset.
         - ``baseline_c``, ``maintained_constriction_c``, ``maintained_constriction_m``, ``redilation_k``
           and ``redilation_P``: the fitted parameters.
 
         The other parameters (the constriction m and c, and the redilation S) are not used: the
-        simulation derives them so that the curve has no jumps. The simulated constriction runs from the
-        constriction start straight to the peak constriction, without the interpolated stretch between
-        the constriction end and the peak constriction.
+        simulation derives them so that the curve has no jumps.
 
         Raises:
             ValueError: If the model does not have all four phases, or if a phase has no fit (see
