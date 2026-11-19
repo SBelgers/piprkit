@@ -39,20 +39,36 @@ WIDTH = 174 / 25.4
 FONT_SIZE = 10
 
 
+def mean_ci(values):
+    # The mean and its 95% confidence interval (t distribution)
+    mean = float(np.mean(values))
+    low, high = stats.t.interval(0.95, values.size - 1, loc=mean, scale=stats.sem(values))
+    return mean, float(low), float(high)
+
+
 def agreement(x, y):
-    # n, Pearson's r with its 95% CI and p, r² and the mean difference (y - x), over the pairs that have both values
+    # Over the pairs that have both values: n; the mean of x and of y with their 95% CIs; the mean difference (y - x)
+    # with its 95% CI and the p of a paired t-test; and Pearson's r with its 95% CI and p, and r²
     x, y = np.asarray(x, dtype=np.float64), np.asarray(y, dtype=np.float64)
     both = np.isfinite(x) & np.isfinite(y)
     x, y = x[both], y[both]
-    r = p = low = high = difference = np.nan
-    if x.size >= 4 and np.ptp(x) > 0 and np.ptp(y) > 0:
-        result = stats.pearsonr(x, y)
-        r, p = float(result.statistic), float(result.pvalue)
-        low, high = result.confidence_interval(confidence_level=0.95)
+    x_mean = x_low = x_high = y_mean = y_low = y_high = np.nan
+    difference = difference_low = difference_high = t = t_p = r = r_p = r_low = r_high = np.nan
     if x.size >= 2:
+        x_mean, x_low, x_high = mean_ci(x)
+        y_mean, y_low, y_high = mean_ci(y)
         difference = float(np.mean(y - x))
-    return {"n": int(x.size), "r": r, "ci95_low": float(low), "ci95_high": float(high), "p": p, "r2": r**2,
-            "mean_difference": difference}
+        test = stats.ttest_rel(y, x)
+        t, t_p = float(test.statistic), float(test.pvalue)
+        difference_low, difference_high = test.confidence_interval(confidence_level=0.95)
+    if x.size >= 3 and np.ptp(x) > 0 and np.ptp(y) > 0:
+        result = stats.pearsonr(x, y)
+        r, r_p = float(result.statistic), float(result.pvalue)
+        r_low, r_high = result.confidence_interval(confidence_level=0.95)
+    return {"n": int(x.size), "x_mean": x_mean, "x_ci95_low": x_low, "x_ci95_high": x_high, "y_mean": y_mean,
+            "y_ci95_low": y_low, "y_ci95_high": y_high, "mean_difference": difference,
+            "difference_ci95_low": float(difference_low), "difference_ci95_high": float(difference_high), "t": t,
+            "t_p": t_p, "r": r, "r_ci95_low": float(r_low), "r_ci95_high": float(r_high), "r_p": r_p, "r2": r**2}
 
 
 def load_metrics(tool):
